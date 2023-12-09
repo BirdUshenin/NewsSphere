@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.birdushenin.newssphere.Application
 import com.birdushenin.newssphere.R
@@ -21,47 +23,38 @@ import javax.inject.Inject
 
 class NewsWindowFragment : Fragment() {
 
-    private lateinit var binding: FragmentNewsWindowBinding
-    @Inject
-    lateinit var retrofit: Retrofit
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentNewsWindowBinding.inflate(inflater)
+        val binding = FragmentNewsWindowBinding.inflate(layoutInflater)
 
-        Application.appComponent.inject(this)
-        val newsService = retrofit.create(NewsService::class.java)
+        val title = arguments?.getString("title") ?: ""
+        val description = arguments?.getString("description")
+        val urlToImage = arguments?.getString("urlToImage")
+        val source = arguments?.getString("source")
 
-        lifecycleScope.launch {
-            binding.progressBar.visibility = View.GONE
-            loadNews(newsService)
-        }
+        binding.mainText.text = title
+        binding.description.text = description
+        binding.source.text = source
+
+        Glide.with(binding.picNews)
+            .load(urlToImage)
+            .into(binding.picNews)
+
         return binding.root
     }
 
-    private suspend fun loadNews(newsService: NewsService) {
-        val apiKey = "eae4e313c2d043c183e78149bc172501"
-
-        try {
-            val response = newsService.getTopHeadlines(apiKey = apiKey)
-            if (response.isSuccessful) {
-                val newsList = response.body()?.articles ?: emptyList()
-                withContext(Dispatchers.Main) {
-                    if (newsList.isNotEmpty()) {
-                        val firstArticle = newsList[0]
-                        binding.mainText.text = firstArticle.title
-                        binding.description.text = firstArticle.description
-                        binding.data.text = firstArticle.content
-                        binding.source.text = firstArticle.source.name
-
-                        Glide.with(binding.picNews)
-                            .load(firstArticle.urlToImage)
-                            .into(binding.picNews)
-                    }
-                }
-            }
-        } catch (_: Exception) { }
+    companion object {
+        fun newInstance(title: String, description: String?, urlToImage: String?, source: String): NewsWindowFragment {
+            val fragment = NewsWindowFragment()
+            val args = Bundle()
+            args.putString("title", title)
+            args.putString("description", description)
+            args.putString("urlToImage", urlToImage)
+            args.putString("source", source)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }
