@@ -6,24 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.birdushenin.newssphere.Application
 import com.birdushenin.newssphere.R
 import com.birdushenin.newssphere.data.Article
-import com.birdushenin.newssphere.databinding.FragmentHeadlinesBinding
+import com.birdushenin.newssphere.databinding.FragmentNewsWindowBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import kotlinx.coroutines.withContext
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
 import javax.inject.Inject
 
-class HeadlinesFragment : Fragment() {
+class NewsWindowFragment : Fragment() {
 
-    private val adapter = NewsAdapter()
-
+    private lateinit var binding: FragmentNewsWindowBinding
     @Inject
     lateinit var retrofit: Retrofit
 
@@ -31,29 +29,10 @@ class HeadlinesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentHeadlinesBinding.inflate(layoutInflater)
+        binding = FragmentNewsWindowBinding.inflate(inflater)
+
         Application.appComponent.inject(this)
-
         val newsService = retrofit.create(NewsService::class.java)
-
-        //RecyclerView
-        val recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
-
-        adapter.setOnUserItemClickListener(object: OnNewsItemClickListener {
-            override fun onNewsItemClicked(article: Article) {
-                val fragmentWindow = NewsWindowFragment()
-//                fragmentWindow.setOnUserItemClickListener(this@HeadlinesFragment)
-
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_window, fragmentWindow)
-                    .addToBackStack("FragWindow")
-                    .commit()
-            }
-        })
-
-        binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             binding.progressBar.visibility = View.GONE
@@ -70,7 +49,17 @@ class HeadlinesFragment : Fragment() {
             if (response.isSuccessful) {
                 val newsList = response.body()?.articles ?: emptyList()
                 withContext(Dispatchers.Main) {
-                    adapter.submitList(newsList)
+                    if (newsList.isNotEmpty()) {
+                        val firstArticle = newsList[0]
+                        binding.mainText.text = firstArticle.title
+                        binding.description.text = firstArticle.description
+                        binding.data.text = firstArticle.content
+                        binding.source.text = firstArticle.source.name
+
+                        Glide.with(binding.picNews)
+                            .load(firstArticle.urlToImage)
+                            .into(binding.picNews)
+                    }
                 }
             }
         } catch (_: Exception) { }
