@@ -43,8 +43,12 @@ class HeadlinesFragment : Fragment() {
 
         adapter.setOnUserItemClickListener(object: OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
-                val fragmentWindow = NewsWindowFragment()
-//                fragmentWindow.setOnUserItemClickListener(this@HeadlinesFragment)
+                val fragmentWindow = NewsWindowFragment.newInstance(
+                    article.title,
+                    article.description,
+                    article.urlToImage,
+                    article.source.name
+                )
 
                 requireActivity().supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_window, fragmentWindow)
