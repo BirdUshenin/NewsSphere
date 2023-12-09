@@ -1,6 +1,7 @@
 package com.birdushenin.newssphere.di
 
 import com.birdushenin.newssphere.presentation.HeadlinesFragment
+import com.birdushenin.newssphere.presentation.NewsWindowFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -9,4 +10,5 @@ import javax.inject.Singleton
 
 interface AppComponent {
     fun inject(fragment: HeadlinesFragment)
+    fun inject(fragment: NewsWindowFragment)
 }

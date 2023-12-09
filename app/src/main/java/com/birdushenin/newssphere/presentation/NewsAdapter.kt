@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.birdushenin.newssphere.databinding.ItemArticleBinding
+import com.birdushenin.newssphere.domain.OnNewsItemClickListener
 
 class NewsAdapter : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DIFF_CALLBACK) {
+
+    var clickListener: OnNewsItemClickListener? = null
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
@@ -32,6 +35,13 @@ class NewsAdapter : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DIFF_CAL
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = getItem(position)
         holder.bind(article)
+        holder.itemView.setOnClickListener {
+            clickListener?.onNewsItemClicked(article)
+        }
+    }
+
+    fun setOnUserItemClickListener(listener: OnNewsItemClickListener) {
+        clickListener = listener
     }
 
     inner class ArticleViewHolder(private val binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root) {
