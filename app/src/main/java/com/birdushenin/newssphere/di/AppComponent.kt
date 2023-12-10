@@ -1,7 +1,8 @@
 package com.birdushenin.newssphere.di
 
-import com.birdushenin.newssphere.presentation.HeadlinesFragment
-import com.birdushenin.newssphere.presentation.NewsWindowFragment
+import com.birdushenin.newssphere.presentation.GeneralFragment
+import com.birdushenin.newssphere.presentation.BusinessFragment
+import com.birdushenin.newssphere.presentation.SportsFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -9,6 +10,7 @@ import javax.inject.Singleton
 @Component (modules = [RetrofitModule::class])
 
 interface AppComponent {
-    fun inject(fragment: HeadlinesFragment)
-    fun inject(fragment: NewsWindowFragment)
+    fun inject(fragment: GeneralFragment)
+    fun inject(fragment: BusinessFragment)
+    fun inject(fragment: SportsFragment)
 }
