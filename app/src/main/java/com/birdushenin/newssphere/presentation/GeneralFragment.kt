@@ -1,26 +1,25 @@
 package com.birdushenin.newssphere.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.birdushenin.newssphere.Application
 import com.birdushenin.newssphere.R
 import com.birdushenin.newssphere.data.Article
-import com.birdushenin.newssphere.databinding.FragmentHeadlinesBinding
+import com.birdushenin.newssphere.databinding.FragmentGeneralBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
 import javax.inject.Inject
 
-class HeadlinesFragment : Fragment() {
+class GeneralFragment : Fragment() {
 
     private val adapter = NewsAdapter()
 
@@ -31,7 +30,7 @@ class HeadlinesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentHeadlinesBinding.inflate(layoutInflater)
+        val binding = FragmentGeneralBinding.inflate(layoutInflater)
         Application.appComponent.inject(this)
 
         val newsService = retrofit.create(NewsService::class.java)

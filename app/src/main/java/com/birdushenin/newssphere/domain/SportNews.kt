@@ -6,12 +6,12 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 
-interface NewsService {
+interface SportNews {
     @Headers("Content-Type: application/json")
     @GET("top-headlines")
     suspend fun getTopHeadlines(
         @Query("country") country: String = "us",
-        @Query("category") category: String = "general",
+        @Query("category") category: String = "sports",
         @Query("apiKey") apiKey: String
     ): Response<NewsResponse>
 }

@@ -11,10 +11,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final Fragment headlines = new HeadlinesFragment();
+//    private final Fragment headlines = new HeadlinesFragment();
+
+    private final Fragment main = new MainFragment();
     private final Fragment saved = new SavedFragment();
     private final Fragment sources = new SourceFragment();
-    private Fragment activeFragment = headlines;
+    private Fragment activeFragment = main;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -24,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, sources, "3").hide(sources).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, saved, "2").hide(saved).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, headlines, "1").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, main, "1").commit();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.Headlines:
-                    switchFragment(headlines);
+                    switchFragment(main);
                     return true;
                 case R.id.Saved:
                     switchFragment(saved);
