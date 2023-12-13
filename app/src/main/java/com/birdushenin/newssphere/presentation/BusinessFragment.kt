@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.birdushenin.newssphere.Application
+import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.R
 import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.databinding.FragmentBusinessBinding
+import com.birdushenin.newssphere.di.NavigationModule
 import com.birdushenin.newssphere.domain.BusinessNews
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
+import com.birdushenin.newssphere.navigation.Screens
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,16 +25,17 @@ import javax.inject.Inject
 class BusinessFragment : Fragment() {
 
     private val adapter = NewsAdapter()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     @Inject
     lateinit var retrofit: Retrofit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = FragmentBusinessBinding.inflate(layoutInflater)
-        Application.appComponent.inject(this)
+        MyApplication.appComponent.inject(this)
 
         val newsService = retrofit.create(BusinessNews::class.java)
 
@@ -42,17 +46,8 @@ class BusinessFragment : Fragment() {
 
         adapter.setOnUserItemClickListener(object: OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
-                val fragmentWindow = NewsWindowFragment.newInstance(
-                    article.title,
-                    article.description,
-                    article.urlToImage,
-                    article.source.name
-                )
-
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_window, fragmentWindow)
-                    .addToBackStack("FragWindow")
-                    .commit()
+                sharedViewModel.selectArticle(article)
+                (requireActivity().application as MyApplication).router.navigateTo(Screens.TestScreen)
             }
         })
 

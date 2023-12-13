@@ -1,22 +1,27 @@
 package com.birdushenin.newssphere.presentation;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.birdushenin.newssphere.MyApplication;
 import com.birdushenin.newssphere.R;
+import com.birdushenin.newssphere.navigation.Screens;
+import com.github.terrakok.cicerone.androidx.AppNavigator;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
-//    private final Fragment headlines = new HeadlinesFragment();
-
     private final Fragment main = new MainFragment();
     private final Fragment saved = new SavedFragment();
     private final Fragment sources = new SourceFragment();
     private Fragment activeFragment = main;
+
+    private AppNavigator navigator = new AppNavigator(this, R.id.fragment_container);
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -43,6 +48,18 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+    }
+    @Override
+    public void onResumeFragments() {
+        super.onResumeFragments();
+
+        ((MyApplication) getApplication()).getNavigatorHolder().setNavigator(navigator);
+    }
+
+    @Override
+    protected void onPause() {
+        ((MyApplication) getApplication()).getNavigatorHolder().removeNavigator();
+        super.onPause();
     }
 
     private void switchFragment(Fragment targetFragment) {

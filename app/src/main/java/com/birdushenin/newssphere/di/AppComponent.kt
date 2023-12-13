@@ -7,7 +7,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component (modules = [RetrofitModule::class])
+@Component (modules = [RetrofitModule::class, NavigationModule::class])
 
 interface AppComponent {
     fun inject(fragment: GeneralFragment)
