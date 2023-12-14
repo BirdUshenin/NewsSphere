@@ -9,7 +9,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.birdushenin.newssphere.MyApplication
-import com.birdushenin.newssphere.R
 import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.databinding.FragmentSportsBinding
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
@@ -24,7 +23,7 @@ import javax.inject.Inject
 class SportsFragment : Fragment() {
 
     private val adapter = NewsAdapter()
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val sharedViewModel: NewsViewModel by activityViewModels()
     @Inject
     lateinit var retrofit: Retrofit
 
