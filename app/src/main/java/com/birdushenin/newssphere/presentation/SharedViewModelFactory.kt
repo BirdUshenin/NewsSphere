@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 
 class SharedViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SharedViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(NewsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return SharedViewModel() as T
+            return NewsViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

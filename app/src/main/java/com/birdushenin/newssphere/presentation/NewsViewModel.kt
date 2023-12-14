@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.birdushenin.newssphere.data.Article
 
-class SharedViewModel : ViewModel() {
+class NewsViewModel : ViewModel() {
     private val _selectedArticle = MutableLiveData<Article?>()
     val selectedArticle: LiveData<Article?> get() = _selectedArticle
 

@@ -13,7 +13,7 @@ class NavigationModule {
 
     @Provides
     @Singleton
-    fun getCicerone(): Cicerone<Router> = Cicerone.create()
+    fun getCicerone(): Cicerone<Router> = create()
 
     @Provides
     @Singleton

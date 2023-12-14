@@ -1,25 +1,26 @@
-<!-- fragment_search.xml -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/blue"
     tools:context=".presentation.SearchFragment">
 
     <EditText
         android:id="@+id/editTextSearch"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Enter search query"/>
+        android:hint="Enter search query"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnCancelSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"/>
+        android:text="Cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Add other UI elements for search results -->
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

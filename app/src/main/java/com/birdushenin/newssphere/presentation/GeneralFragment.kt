@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -29,7 +29,8 @@ class GeneralFragment : Fragment() {
 
     private val adapter = NewsAdapter()
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val sharedViewModel: NewsViewModel by activityViewModels()
+    private val searchViewModel: SearchViewModel by activityViewModels()
 
     @Inject
     lateinit var retrofit: Retrofit
@@ -44,16 +45,24 @@ class GeneralFragment : Fragment() {
         val newsService = retrofit.create(NewsService::class.java)
 
         swipeRefreshLayout = binding.swipeRefreshLayout
-
-        // Set up refresh listener
         swipeRefreshLayout.setOnRefreshListener {
-            // Refresh data when the user performs a swipe-to-refresh gesture
             lifecycleScope.launch {
                 loadNews(newsService)
-                // Signal that refresh is complete
                 swipeRefreshLayout.isRefreshing = false
             }
         }
+
+        searchViewModel.searchQuery.observe(viewLifecycleOwner, Observer { query ->
+            // Обработайте изменение запроса
+            lifecycleScope.launch {
+                adapter.submitList(emptyList())
+                if (query?.isNotBlank() == true) {
+                    searchArticles(query)
+                } else {
+                    loadNews(newsService)
+                }
+            }
+        })
 
         //RecyclerView
         val recyclerView = binding.recyclerView
@@ -74,6 +83,28 @@ class GeneralFragment : Fragment() {
             loadNews(newsService)
         }
         return binding.root
+    }
+
+    private suspend fun searchArticles(query: String) {
+        val articleDao = NewsDatabase.getDatabase(requireActivity().applicationContext).articleDao()
+        val searchResults = articleDao.searchArticles(query)
+
+        val searchResultsList = searchResults.map { articleEntity ->
+            Article(
+                source = Source(articleEntity.sourceId, articleEntity.sourceName),
+                author = articleEntity.author,
+                title = articleEntity.title,
+                description = articleEntity.description,
+                url = articleEntity.url,
+                urlToImage = articleEntity.urlToImage,
+                publishedAt = articleEntity.publishedAt,
+                content = articleEntity.content
+            )
+        }
+
+        withContext(Dispatchers.Main) {
+            adapter.submitList(searchResultsList)
+        }
     }
 
     private suspend fun loadNews(newsService: NewsService) {

@@ -13,7 +13,7 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 
 class NewsWindowFragment : Fragment(), FragmentScreen {
 
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val sharedViewModel: NewsViewModel by activityViewModels()
 
     override fun createFragment(factory: FragmentFactory): Fragment {
         return NewsWindowFragment()
