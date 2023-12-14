@@ -72,7 +72,7 @@ class GeneralFragment : Fragment() {
         adapter.setOnUserItemClickListener(object: OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
                 sharedViewModel.selectArticle(article)
-                (requireActivity().application as MyApplication).router.navigateTo(Screens.TestScreen)
+                (requireActivity().application as MyApplication).router.navigateTo(Screens.NewsWindowScreen)
             }
         })
 

@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResumeFragments() {
         super.onResumeFragments();
-
         ((MyApplication) getApplication()).getNavigatorHolder().setNavigator(navigator);
     }
 
