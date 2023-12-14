@@ -4,16 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.data.Article
+import com.birdushenin.newssphere.data.Source
+import com.birdushenin.newssphere.data.databases.ArticleEntity
+import com.birdushenin.newssphere.data.databases.NewsDatabase
 import com.birdushenin.newssphere.databinding.FragmentGeneralBinding
-import com.birdushenin.newssphere.di.NavigationModule
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
 import com.birdushenin.newssphere.navigation.Screens
@@ -26,6 +28,7 @@ import javax.inject.Inject
 class GeneralFragment : Fragment() {
 
     private val adapter = NewsAdapter()
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
     @Inject
@@ -39,6 +42,18 @@ class GeneralFragment : Fragment() {
         MyApplication.appComponent.inject(this)
 
         val newsService = retrofit.create(NewsService::class.java)
+
+        swipeRefreshLayout = binding.swipeRefreshLayout
+
+        // Set up refresh listener
+        swipeRefreshLayout.setOnRefreshListener {
+            // Refresh data when the user performs a swipe-to-refresh gesture
+            lifecycleScope.launch {
+                loadNews(newsService)
+                // Signal that refresh is complete
+                swipeRefreshLayout.isRefreshing = false
+            }
+        }
 
         //RecyclerView
         val recyclerView = binding.recyclerView
@@ -67,11 +82,46 @@ class GeneralFragment : Fragment() {
         try {
             val response = newsService.getTopHeadlines(apiKey = apiKey)
             if (response.isSuccessful) {
-                val newsList = response.body()?.articles ?: emptyList()
+                val articles = response.body()?.articles ?: emptyList()
+
+                val articleEntities = articles.map { article ->
+                    ArticleEntity(
+                        sourceId = article.source.id,
+                        sourceName = article.source.name,
+                        author = article.author,
+                        title = article.title,
+                        description = article.description,
+                        url = article.url,
+                        urlToImage = article.urlToImage,
+                        publishedAt = article.publishedAt,
+                        content = article.content
+                    )
+                }
                 withContext(Dispatchers.Main) {
-                    adapter.submitList(newsList)
+                    adapter.submitList(articles)
+                    val articleDao = NewsDatabase.getDatabase(requireActivity().applicationContext).articleDao()
+                    articleDao.insertArticles(articleEntities)
                 }
             }
-        } catch (_: Exception) { }
+        } catch (_: Exception) {
+            val articleDao = NewsDatabase.getDatabase(requireContext()).articleDao()
+            val offlineArticles = articleDao.getAllArticles()
+
+            val offlineArticlesList = offlineArticles.map { articleEntity ->
+                Article(
+                    source = Source(articleEntity.sourceId, articleEntity.sourceName),
+                    author = articleEntity.author,
+                    title = articleEntity.title,
+                    description = articleEntity.description,
+                    url = articleEntity.url,
+                    urlToImage = articleEntity.urlToImage,
+                    publishedAt = articleEntity.publishedAt,
+                    content = articleEntity.content
+                )
+            }
+            withContext(Dispatchers.Main) {
+                adapter.submitList(offlineArticlesList)
+            }
+        }
     }
 }

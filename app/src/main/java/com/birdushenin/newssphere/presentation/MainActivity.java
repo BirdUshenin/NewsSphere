@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private final Fragment sources = new SourceFragment();
     private Fragment activeFragment = main;
 
-    private AppNavigator navigator = new AppNavigator(this, R.id.fragment_container);
+    private final AppNavigator navigator = new AppNavigator(this, R.id.fragment_container);
 
     @SuppressLint("NonConstantResourceId")
     @Override
