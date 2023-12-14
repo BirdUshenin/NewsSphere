@@ -12,7 +12,9 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.R
+import com.birdushenin.newssphere.navigation.Screens
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -56,6 +58,10 @@ class MainFragment : Fragment() {
                 else -> null
             }?.let { tab.setIcon(it) }
         }.attach()
+
+        btnFilter.setOnClickListener{
+            (requireActivity().application as MyApplication).router.navigateTo(Screens.FiltersFragment)
+        }
 
         btnSearchThis.setOnClickListener {
             val query = editText.text.toString()
