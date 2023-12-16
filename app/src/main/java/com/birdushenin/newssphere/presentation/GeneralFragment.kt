@@ -1,7 +1,6 @@
 package com.birdushenin.newssphere.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,11 +33,8 @@ class GeneralFragment : Fragment() {
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
 
-//    private var selectedFilter: String? = null
-
     @Inject
     lateinit var retrofit: Retrofit
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,19 +44,17 @@ class GeneralFragment : Fragment() {
         MyApplication.appComponent.inject(this)
 
         val newsService = retrofit.create(NewsService::class.java)
-
+        val selectedFilter = filterViewModel.selectedFilter.value
         swipeRefreshLayout = binding.swipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {
-
-
-
-            filterViewModel.selectedFilter.observe(viewLifecycleOwner, Observer { selectedFilter ->
-
-                lifecycleScope.launch {
+            lifecycleScope.launch {
+                if (selectedFilter == null) {
+                    loadNews(newsService, "popular")
+                } else {
                     loadNews(newsService, selectedFilter)
-                    swipeRefreshLayout.isRefreshing = false
                 }
-            })
+                swipeRefreshLayout.isRefreshing = false
+            }
         }
 
         filterViewModel.selectedFilter.observe(viewLifecycleOwner, Observer { selectedFilter ->
@@ -75,7 +69,7 @@ class GeneralFragment : Fragment() {
                 if (query?.isNotBlank() == true) {
                     searchArticles(query)
                 } else {
-                    loadNews(newsService,"popular")
+                    loadNews(newsService, "popular")
                 }
             }
         })
@@ -84,8 +78,7 @@ class GeneralFragment : Fragment() {
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
-
-        adapter.setOnUserItemClickListener(object: OnNewsItemClickListener {
+        adapter.setOnUserItemClickListener(object : OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
                 sharedViewModel.selectArticle(article)
                 (requireActivity().application as MyApplication).router.navigateTo(Screens.NewsWindowScreen)
@@ -96,7 +89,11 @@ class GeneralFragment : Fragment() {
 
         lifecycleScope.launch {
             binding.progressBar.visibility = View.GONE
-            loadNews(newsService, "popular")
+            if (selectedFilter == null) {
+                loadNews(newsService, "popular")
+            } else {
+                loadNews(newsService, selectedFilter)
+            }
         }
         return binding.root
     }
@@ -124,11 +121,11 @@ class GeneralFragment : Fragment() {
     }
 
     private suspend fun loadNews(newsService: NewsService, filter: String) {
-        val apiKey = "eae4e313c2d043c183e78149bc172501"
+        val apiKey = "d777c1dfe5e746a0b6363c268f0f61a8"
         val query = "general"
 
         try {
-            val response = newsService.getEverything(query, apiKey,  filter)
+            val response = newsService.getEverything(query, apiKey, filter)
             if (response.isSuccessful) {
                 val articles = response.body()?.articles ?: emptyList()
 
@@ -147,7 +144,8 @@ class GeneralFragment : Fragment() {
                 }
                 withContext(Dispatchers.Main) {
                     adapter.submitList(articles)
-                    val articleDao = NewsDatabase.getDatabase(requireActivity().applicationContext).articleDao()
+                    val articleDao =
+                        NewsDatabase.getDatabase(requireActivity().applicationContext).articleDao()
                     articleDao.insertArticles(articleEntities)
                     //TODO in other tread
                 }
