@@ -23,13 +23,13 @@ class MainFragment : Fragment() {
 
     private var isSearchMode = false
     private val searchViewModel: SearchViewModel by activityViewModels()
+    val filterViewModel: FilterViewModel by activityViewModels()
 
     @SuppressLint("MissingInflatedId", "CutPasteId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
         val view = inflater.inflate(R.layout.fragment_main, container, false)
         val appBarLayout: AppBarLayout = view.findViewById(R.id.appBarLayout)

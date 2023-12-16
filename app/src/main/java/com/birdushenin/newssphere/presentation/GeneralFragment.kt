@@ -1,6 +1,7 @@
 package com.birdushenin.newssphere.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,9 +32,13 @@ class GeneralFragment : Fragment() {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val sharedViewModel: NewsViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
+    private val filterViewModel: FilterViewModel by activityViewModels()
+
+//    private var selectedFilter: String? = null
 
     @Inject
     lateinit var retrofit: Retrofit
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,20 +51,31 @@ class GeneralFragment : Fragment() {
 
         swipeRefreshLayout = binding.swipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {
-            lifecycleScope.launch {
-                loadNews(newsService)
-                swipeRefreshLayout.isRefreshing = false
-            }
+
+
+
+            filterViewModel.selectedFilter.observe(viewLifecycleOwner, Observer { selectedFilter ->
+
+                lifecycleScope.launch {
+                    loadNews(newsService, selectedFilter)
+                    swipeRefreshLayout.isRefreshing = false
+                }
+            })
         }
 
+        filterViewModel.selectedFilter.observe(viewLifecycleOwner, Observer { selectedFilter ->
+            lifecycleScope.launch {
+                loadNews(newsService, selectedFilter)
+            }
+        })
+
         searchViewModel.searchQuery.observe(viewLifecycleOwner, Observer { query ->
-            // Обработайте изменение запроса
             lifecycleScope.launch {
                 adapter.submitList(emptyList())
                 if (query?.isNotBlank() == true) {
                     searchArticles(query)
                 } else {
-                    loadNews(newsService)
+                    loadNews(newsService,"popular")
                 }
             }
         })
@@ -80,7 +96,7 @@ class GeneralFragment : Fragment() {
 
         lifecycleScope.launch {
             binding.progressBar.visibility = View.GONE
-            loadNews(newsService)
+            loadNews(newsService, "popular")
         }
         return binding.root
     }
@@ -107,11 +123,12 @@ class GeneralFragment : Fragment() {
         }
     }
 
-    private suspend fun loadNews(newsService: NewsService) {
+    private suspend fun loadNews(newsService: NewsService, filter: String) {
         val apiKey = "eae4e313c2d043c183e78149bc172501"
+        val query = "general"
 
         try {
-            val response = newsService.getTopHeadlines(apiKey = apiKey)
+            val response = newsService.getEverything(query, apiKey,  filter)
             if (response.isSuccessful) {
                 val articles = response.body()?.articles ?: emptyList()
 
@@ -132,6 +149,7 @@ class GeneralFragment : Fragment() {
                     adapter.submitList(articles)
                     val articleDao = NewsDatabase.getDatabase(requireActivity().applicationContext).articleDao()
                     articleDao.insertArticles(articleEntities)
+                    //TODO in other tread
                 }
             }
         } catch (_: Exception) {
