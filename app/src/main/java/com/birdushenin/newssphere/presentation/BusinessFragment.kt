@@ -12,6 +12,7 @@ import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.databinding.FragmentBusinessBinding
 import com.birdushenin.newssphere.domain.BusinessNews
+import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
 import com.birdushenin.newssphere.navigation.Screens
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +36,7 @@ class BusinessFragment : Fragment() {
         val binding = FragmentBusinessBinding.inflate(layoutInflater)
         MyApplication.appComponent.inject(this)
 
-        val newsService = retrofit.create(BusinessNews::class.java)
+        val newsService = retrofit.create(NewsService::class.java)
 
         //RecyclerView
         val recyclerView = binding.recyclerView
@@ -59,7 +60,7 @@ class BusinessFragment : Fragment() {
         return binding.root
     }
 
-    private suspend fun loadNews(newsService: BusinessNews) {
+    private suspend fun loadNews(newsService: NewsService) {
         val apiKey = "eae4e313c2d043c183e78149bc172501"
 
         try {
