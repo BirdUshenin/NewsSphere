@@ -45,11 +45,10 @@ class GeneralFragment : Fragment() {
         MyApplication.appComponent.inject(this)
 
         val newsService = retrofit.create(NewsService::class.java)
-        val selectedFilter = filterViewModel.selectedFilter.value
-        val selectedCalendarStart = filterViewModel.selectedCalendarStart.value
-        val selectedCalendarEnd = filterViewModel.selectedCalendarEnd.value
 
-
+        val selectedFilter = filterViewModel.selectedFilter.value?.selectedPopular
+        val selectedCalendarStart = filterViewModel.selectedFilter.value?.selectedCalendarStart
+        val selectedCalendarEnd = filterViewModel.selectedFilter.value?.selectedCalendarEnd
 
         swipeRefreshLayout = binding.swipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {
@@ -63,7 +62,7 @@ class GeneralFragment : Fragment() {
             }
         }
 
-        filterViewModel.combinedLiveData.observe(viewLifecycleOwner, Observer { (selectedFilter, selectedCalendarStart, selectedCalendarEnd) ->
+        filterViewModel.selectedFilter.observe(viewLifecycleOwner, Observer { (selectedFilter, selectedCalendarStart, selectedCalendarEnd) ->
             lifecycleScope.launch {
                 if (selectedFilter != null) {
                     loadNews(newsService, selectedFilter, selectedCalendarStart, selectedCalendarEnd)
