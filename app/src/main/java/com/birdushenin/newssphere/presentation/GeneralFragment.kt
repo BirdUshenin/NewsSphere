@@ -45,21 +45,28 @@ class GeneralFragment : Fragment() {
 
         val newsService = retrofit.create(NewsService::class.java)
         val selectedFilter = filterViewModel.selectedFilter.value
+        val selectedCalendarStart = filterViewModel.selectedCalendarStart.value
+        val selectedCalendarEnd = filterViewModel.selectedCalendarEnd.value
+
+
+
         swipeRefreshLayout = binding.swipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {
             lifecycleScope.launch {
                 if (selectedFilter == null) {
-                    loadNews(newsService, "popular")
+                    loadNews(newsService, "popular", null, null)
                 } else {
-                    loadNews(newsService, selectedFilter)
+                    loadNews(newsService, selectedFilter, selectedCalendarStart, selectedCalendarEnd)
                 }
                 swipeRefreshLayout.isRefreshing = false
             }
         }
 
-        filterViewModel.selectedFilter.observe(viewLifecycleOwner, Observer { selectedFilter ->
+        filterViewModel.combinedLiveData.observe(viewLifecycleOwner, Observer { (selectedFilter, selectedCalendarStart, selectedCalendarEnd) ->
             lifecycleScope.launch {
-                loadNews(newsService, selectedFilter)
+                if (selectedFilter != null) {
+                    loadNews(newsService, selectedFilter, selectedCalendarStart, selectedCalendarEnd)
+                }
             }
         })
 
@@ -69,7 +76,7 @@ class GeneralFragment : Fragment() {
                 if (query?.isNotBlank() == true) {
                     searchArticles(query)
                 } else {
-                    loadNews(newsService, "popular")
+                    loadNews(newsService, "popular", null, null)
                 }
             }
         })
@@ -90,9 +97,9 @@ class GeneralFragment : Fragment() {
         lifecycleScope.launch {
             binding.progressBar.visibility = View.GONE
             if (selectedFilter == null) {
-                loadNews(newsService, "popular")
+                loadNews(newsService, "popular", null, null)
             } else {
-                loadNews(newsService, selectedFilter)
+                loadNews(newsService, selectedFilter, selectedCalendarStart, selectedCalendarEnd)
             }
         }
         return binding.root
@@ -120,12 +127,12 @@ class GeneralFragment : Fragment() {
         }
     }
 
-    private suspend fun loadNews(newsService: NewsService, filter: String) {
-        val apiKey = "d777c1dfe5e746a0b6363c268f0f61a8"
+    private suspend fun loadNews(newsService: NewsService, filter: String, fromDate: String?, toDate: String? ) {
         val query = "general"
+        val apiKey = "d777c1dfe5e746a0b6363c268f0f61a8"
 
         try {
-            val response = newsService.getEverything(query, apiKey, filter)
+            val response = newsService.getEverything(query, apiKey, fromDate, toDate, filter)
             if (response.isSuccessful) {
                 val articles = response.body()?.articles ?: emptyList()
 
