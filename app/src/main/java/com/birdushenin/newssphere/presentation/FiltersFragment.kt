@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.birdushenin.newssphere.R
+import com.birdushenin.newssphere.data.FilterState
 import com.birdushenin.newssphere.databinding.FragmentFiltersBinding
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.google.android.material.datepicker.MaterialDatePicker

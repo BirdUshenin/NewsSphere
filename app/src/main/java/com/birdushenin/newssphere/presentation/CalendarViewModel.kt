@@ -1,22 +1,9 @@
 package com.birdushenin.newssphere.presentation
 
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
-data class FilterState(
-    val startDate: String,
-    val endDate: String,
-    val chooseDate: TextView,
-    val textColor: Int,
-    val imageResource: Int,
-    val imageWidth: Int,
-    val imageHeight: Int,
-    val density: Float,
-    val newWidthInDp: Int,
-    val newHeightInDp: Int
-)
+import com.birdushenin.newssphere.data.FilterState
 
 class CalendarViewModel : ViewModel() {
     private val _filterState = MutableLiveData<FilterState>()
