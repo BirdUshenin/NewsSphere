@@ -23,13 +23,13 @@ import java.util.Locale
 
 class FiltersFragment : Fragment(), FragmentScreen {
 
+    private val filterViewModel: FilterViewModel by activityViewModels()
+    private val calendarViewModel: CalendarViewModel by activityViewModels()
     private lateinit var radioGroup: RadioGroup
     private var selectedFilter: String? = null
     private var tempSelectedFilter: String? = null
-    private val filterViewModel: FilterViewModel by activityViewModels()
     private var tempStartDate: String? = null
     private var tempEndDate: String? = null
-    private val calendarViewModel: CalendarViewModel by activityViewModels()
 
     override fun createFragment(factory: FragmentFactory): Fragment {
         return FiltersFragment()
