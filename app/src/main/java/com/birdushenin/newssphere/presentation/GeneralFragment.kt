@@ -19,6 +19,7 @@ import com.birdushenin.newssphere.databinding.FragmentGeneralBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
 import com.birdushenin.newssphere.navigation.Screens
+import com.birdushenin.newssphere.presentation.adapter.NewsAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

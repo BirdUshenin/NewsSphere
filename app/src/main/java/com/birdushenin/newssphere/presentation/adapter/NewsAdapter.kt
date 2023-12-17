@@ -1,4 +1,4 @@
-package com.birdushenin.newssphere.presentation
+package com.birdushenin.newssphere.presentation.adapter
 
 import com.birdushenin.newssphere.data.Article
 import com.bumptech.glide.Glide
@@ -12,7 +12,7 @@ import com.birdushenin.newssphere.domain.OnNewsItemClickListener
 
 class NewsAdapter : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DIFF_CALLBACK) {
 
-    var clickListener: OnNewsItemClickListener? = null
+    private var clickListener: OnNewsItemClickListener? = null
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
