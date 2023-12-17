@@ -8,4 +8,11 @@
     <string name="date">Date</string>
     <string name="language">Language</string>
     <string name="choose_date">Choose date</string>
+    <string name="deutsch">Deutsch</string>
+    <string name="english">English</string>
+    <string name="russian">Русский</string>
+    <string name="relevant">Relevant</string>
+    <string name="new_">New</string>
+    <string name="popular">Popular</string>
+
 </resources>

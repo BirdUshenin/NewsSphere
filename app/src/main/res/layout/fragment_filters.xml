@@ -28,10 +28,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Filters"
-                android:visibility="visible"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/btnCheck"
@@ -39,9 +39,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
-                android:visibility="visible"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/baseline_check" />
+                android:src="@drawable/baseline_check"
+                android:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/btnBack"
@@ -51,7 +51,6 @@
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/baseline_back" />
-
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -85,7 +84,7 @@
                 android:button="@android:color/transparent"
                 android:checked="true"
                 android:gravity="center"
-                android:text="Popular" />
+                android:text="@string/popular" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbCenter"
@@ -96,7 +95,7 @@
                 android:button="@android:color/transparent"
                 android:checked="false"
                 android:gravity="center"
-                android:text="New" />
+                android:text="@string/new_" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rbRight"
@@ -107,7 +106,7 @@
                 android:button="@android:color/transparent"
                 android:checked="false"
                 android:gravity="center"
-                android:text="Relevant" />
+                android:text="@string/relevant" />
         </RadioGroup>
     </LinearLayout>
 
@@ -115,9 +114,10 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
         android:text="@string/date"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
 
@@ -125,9 +125,10 @@
         android:id="@+id/language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
         android:text="@string/language"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/date" />
 
@@ -135,22 +136,76 @@
         android:id="@+id/imageCalendar"
         android:layout_width="25dp"
         android:layout_height="30dp"
-        android:src="@drawable/baseline_calendar"
         android:layout_marginEnd="30dp"
         android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/baseline_calendar"
         app:layout_constraintBottom_toBottomOf="@+id/date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/date"
-        android:focusable="true" />
+        app:layout_constraintTop_toTopOf="@+id/date" />
 
     <TextView
         android:id="@+id/chooseDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choose_date"
         android:layout_marginEnd="10dp"
+        android:text="@string/choose_date"
         app:layout_constraintBottom_toBottomOf="@+id/imageCalendar"
         app:layout_constraintEnd_toStartOf="@+id/imageCalendar"
         app:layout_constraintTop_toTopOf="@+id/imageCalendar" />
+
+    <LinearLayout
+        android:id="@+id/languageLayout"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:padding="2dp"
+        app:layout_constraintStart_toStartOf="@+id/language"
+        app:layout_constraintTop_toBottomOf="@+id/language">
+
+        <RadioGroup
+            android:id="@+id/buttonLang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/buttonRussian"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/radio_button_lang"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:gravity="center"
+                android:text="@string/russian" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/buttonEnglish"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/radio_button_lang"
+                android:button="@android:color/transparent"
+                android:checked="false"
+                android:gravity="center"
+                android:text="@string/english" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/buttonDeutsch"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/radio_button_lang"
+                android:button="@android:color/transparent"
+                android:checked="false"
+                android:gravity="center"
+                android:text="@string/deutsch" />
+        </RadioGroup>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

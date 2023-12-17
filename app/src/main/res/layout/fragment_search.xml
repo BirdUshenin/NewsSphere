@@ -7,20 +7,60 @@
     android:background="@color/blue"
     tools:context=".presentation.SearchFragment">
 
-    <EditText
-        android:id="@+id/editTextSearch"
+    <LinearLayout
+        android:id="@+id/language"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter search query"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnCancelSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:padding="2dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioGroup
+            android:id="@+id/buttonLang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/buttonRussian"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/radio_button_lang"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:gravity="center"
+                android:text="Русский" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/buttonEnglish"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/radio_button_lang"
+                android:button="@android:color/transparent"
+                android:checked="false"
+                android:layout_marginRight="4dp"
+                android:gravity="center"
+                android:text="English" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/buttonDeutsch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/radio_button_lang"
+                android:button="@android:color/transparent"
+                android:checked="false"
+                android:gravity="center"
+                android:text="Deutsch" />
+        </RadioGroup>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
