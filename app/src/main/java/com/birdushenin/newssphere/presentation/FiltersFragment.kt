@@ -26,8 +26,11 @@ class FiltersFragment : Fragment(), FragmentScreen {
     private val filterViewModel: FilterViewModel by activityViewModels()
     private val calendarViewModel: CalendarViewModel by activityViewModels()
     private lateinit var radioGroup: RadioGroup
+    private lateinit var radioGroup2: RadioGroup
     private var selectedFilter: String? = null
+    private var selectedFilter2: String? = null
     private var tempSelectedFilter: String? = null
+    private var tempSelectedFilterLang: String? = null
     private var tempStartDate: String? = null
     private var tempEndDate: String? = null
 
@@ -45,10 +48,6 @@ class FiltersFragment : Fragment(), FragmentScreen {
         val btnBack = binding.btnBack
         val chooseDate = binding.chooseDate
 
-        filterViewModel.selectedFilter.observe(viewLifecycleOwner, Observer { selectedFilter ->
-            restoreSelectedFilter(selectedFilter)
-        })
-
         calendarViewModel.filterState.observe(viewLifecycleOwner, Observer { filterState ->
             chooseDate.text = "${filterState.startDate} - ${filterState.endDate}"
             chooseDate.setTextColor(filterState.textColor)
@@ -60,6 +59,27 @@ class FiltersFragment : Fragment(), FragmentScreen {
             imageCalendar.layoutParams = layoutParams
         })
 
+        imageCalendar.setOnClickListener {
+            showDatePicker()
+        }
+
+
+
+
+
+        filterViewModel.selectedFilterPosition.observe(
+            viewLifecycleOwner,
+            Observer { selectedFilterPosition ->
+                restoreSelectedFilter(selectedFilterPosition)
+            })
+
+        filterViewModel.selectedFilterPositionLang.observe(
+            viewLifecycleOwner,
+            Observer { selectedFilterPositionLang ->
+                restoreSelectedFilterLang(selectedFilterPositionLang)
+            })
+
+
         radioGroup = binding.radioButton
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             tempSelectedFilter = when (checkedId) {
@@ -70,18 +90,42 @@ class FiltersFragment : Fragment(), FragmentScreen {
             }
         }
 
-        imageCalendar.setOnClickListener {
-            showDatePicker()
+        radioGroup2 = binding.buttonLang
+        radioGroup2.setOnCheckedChangeListener { _, checkedId ->
+            tempSelectedFilterLang = when (checkedId) {
+                R.id.buttonRussian -> "ru"
+                R.id.buttonEnglish -> "en"
+                R.id.buttonDeutsch -> "de"
+                else -> null
+            }
         }
 
+
+
+
+
         applyButton.setOnClickListener {
+
+
+
+            filterViewModel.setFilter(tempSelectedFilter, tempStartDate, tempEndDate, tempSelectedFilterLang)
+
             tempSelectedFilter?.let {
+
                 selectedFilter = it
-                filterViewModel.setFilter(it)
+                filterViewModel.selectFilterPosition(it)
+
+
                 tempStartDate?.let { startDate ->
                     tempEndDate?.let { endDate ->
-                        filterViewModel.setStart(startDate)
-                        filterViewModel.setEnd(endDate)
+
+
+                        tempSelectedFilterLang?.let { catch ->
+                            selectedFilter2 = catch
+                            filterViewModel.selectFilterPositionLang(catch)
+                        }
+
+
 
                         chooseDate.text = "$startDate - $endDate"
                         val textColor = ContextCompat.getColor(requireContext(), R.color.blue)
@@ -155,6 +199,14 @@ class FiltersFragment : Fragment(), FragmentScreen {
             "popular" -> radioGroup.check(R.id.rbLeft)
             "publishedAt" -> radioGroup.check(R.id.rbCenter)
             "relevancy" -> radioGroup.check(R.id.rbRight)
+        }
+    }
+
+    private fun restoreSelectedFilterLang(savedFilter: String?) {
+        when (savedFilter) {
+            "ru" -> radioGroup2.check(R.id.buttonRussian)
+            "en" -> radioGroup2.check(R.id.buttonEnglish)
+            "de" -> radioGroup2.check(R.id.buttonDeutsch)
         }
     }
 }
