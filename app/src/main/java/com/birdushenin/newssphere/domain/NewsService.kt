@@ -21,8 +21,8 @@ interface NewsService {
     suspend fun getEverything(
         @Query("q") query: String,
         @Query("apiKey") apiKey: String,
-//        @Query("from") from: String? = null,
-//        @Query("to") to: String? = null,
+        @Query("from") from: String? = null,
+        @Query("to") to: String? = null,
         @Query("sortBy") sortBy: String? = null
     ): Response<NewsResponse>
 
