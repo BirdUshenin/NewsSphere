@@ -27,6 +27,7 @@ class FiltersFragment : Fragment(), FragmentScreen {
     private val calendarViewModel: CalendarViewModel by activityViewModels()
     private lateinit var radioGroup: RadioGroup
     private var selectedFilter: String? = null
+    private var selectedFilterPosition: String? = null
     private var tempSelectedFilter: String? = null
     private var tempStartDate: String? = null
     private var tempEndDate: String? = null
@@ -45,8 +46,8 @@ class FiltersFragment : Fragment(), FragmentScreen {
         val btnBack = binding.btnBack
         val chooseDate = binding.chooseDate
 
-        filterViewModel.selectedFilter.observe(viewLifecycleOwner, Observer { selectedFilter ->
-            restoreSelectedFilter(selectedFilter)
+        filterViewModel.selectedFilterPosition.observe(viewLifecycleOwner, Observer { selectedFilterPosition ->
+            restoreSelectedFilter(selectedFilterPosition)
         })
 
         calendarViewModel.filterState.observe(viewLifecycleOwner, Observer { filterState ->
@@ -77,12 +78,10 @@ class FiltersFragment : Fragment(), FragmentScreen {
         applyButton.setOnClickListener {
             tempSelectedFilter?.let {
                 selectedFilter = it
-                filterViewModel.setFilter(it)
+                filterViewModel.selectFilterPosition(it)
+                filterViewModel.setFilter(it, tempStartDate, tempEndDate)
                 tempStartDate?.let { startDate ->
                     tempEndDate?.let { endDate ->
-                        filterViewModel.setStart(startDate)
-                        filterViewModel.setEnd(endDate)
-
                         chooseDate.text = "$startDate - $endDate"
                         val textColor = ContextCompat.getColor(requireContext(), R.color.blue)
                         val imageResource = R.drawable.calendar_clicked

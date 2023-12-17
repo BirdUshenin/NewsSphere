@@ -8,7 +8,7 @@
     tools:context=".presentation.SearchFragment">
 
     <LinearLayout
-        android:id="@+id/language"
+
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:gravity="center"
@@ -19,14 +19,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioGroup
-            android:id="@+id/buttonLang"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
 
             <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/buttonRussian"
+
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
@@ -38,7 +38,7 @@
                 android:text="Русский" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/buttonEnglish"
+
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
@@ -50,7 +50,7 @@
                 android:text="English" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/buttonDeutsch"
+
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
