@@ -23,7 +23,8 @@ interface NewsService {
         @Query("apiKey") apiKey: String,
         @Query("from") from: String? = null,
         @Query("to") to: String? = null,
-        @Query("sortBy") sortBy: String? = null
+        @Query("sortBy") sortBy: String? = null,
+        @Query("language") language: String? = null
     ): Response<NewsResponse>
 
     @Headers("Content-Type: application/json")

@@ -49,26 +49,42 @@ class GeneralFragment : Fragment() {
         val selectedFilter = filterViewModel.selectedFilter.value?.selectedPopular
         val selectedCalendarStart = filterViewModel.selectedFilter.value?.selectedCalendarStart
         val selectedCalendarEnd = filterViewModel.selectedFilter.value?.selectedCalendarEnd
+        val selectedLang = filterViewModel.selectedFilter.value?.selectedLang
+
 
         swipeRefreshLayout = binding.swipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {
             lifecycleScope.launch {
                 if (selectedFilter == null) {
-                    loadNews(newsService, "popular", null, null)
+                    loadNews(newsService, "popular", null, null, null)
                 } else {
-                    loadNews(newsService, selectedFilter, selectedCalendarStart, selectedCalendarEnd)
+                    loadNews(
+                        newsService,
+                        selectedFilter,
+                        selectedCalendarStart,
+                        selectedCalendarEnd,
+                        selectedLang
+                    )
                 }
                 swipeRefreshLayout.isRefreshing = false
             }
         }
 
-        filterViewModel.selectedFilter.observe(viewLifecycleOwner, Observer { (selectedFilter, selectedCalendarStart, selectedCalendarEnd) ->
-            lifecycleScope.launch {
-                if (selectedFilter != null) {
-                    loadNews(newsService, selectedFilter, selectedCalendarStart, selectedCalendarEnd)
+        filterViewModel.selectedFilter.observe(
+            viewLifecycleOwner,
+            Observer { (selectedFilter, selectedCalendarStart, selectedCalendarEnd, selectedLang) ->
+                lifecycleScope.launch {
+                    if (selectedFilter != null) {
+                        loadNews(
+                            newsService,
+                            selectedFilter,
+                            selectedCalendarStart,
+                            selectedCalendarEnd,
+                            selectedLang
+                        )
+                    }
                 }
-            }
-        })
+            })
 
         searchViewModel.searchQuery.observe(viewLifecycleOwner, Observer { query ->
             lifecycleScope.launch {
@@ -76,7 +92,7 @@ class GeneralFragment : Fragment() {
                 if (query?.isNotBlank() == true) {
                     searchArticles(query)
                 } else {
-                    loadNews(newsService, "popular", null, null)
+                    loadNews(newsService, "popular", null, null, null)
                 }
             }
         })
@@ -85,6 +101,7 @@ class GeneralFragment : Fragment() {
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
+//        recyclerView.smoothScrollToPosition(0)
         adapter.setOnUserItemClickListener(object : OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
                 sharedViewModel.selectArticle(article)
@@ -97,9 +114,15 @@ class GeneralFragment : Fragment() {
         lifecycleScope.launch {
             binding.progressBar.visibility = View.GONE
             if (selectedFilter == null) {
-                loadNews(newsService, "popular", null, null)
+                loadNews(newsService, "popular", null, null, null)
             } else {
-                loadNews(newsService, selectedFilter, selectedCalendarStart, selectedCalendarEnd)
+                loadNews(
+                    newsService,
+                    selectedFilter,
+                    selectedCalendarStart,
+                    selectedCalendarEnd,
+                    selectedLang
+                )
             }
         }
         return binding.root
@@ -127,12 +150,19 @@ class GeneralFragment : Fragment() {
         }
     }
 
-    private suspend fun loadNews(newsService: NewsService, filter: String, fromDate: String?, toDate: String? ) {
+    private suspend fun loadNews(
+        newsService: NewsService,
+        filter: String,
+        fromDate: String?,
+        toDate: String?,
+        language: String?
+    ) {
         val query = "general"
-        val apiKey = "d777c1dfe5e746a0b6363c268f0f61a8"
+        val apiKey = "eae4e313c2d043c183e78149bc172501"
 
         try {
-            val response = newsService.getEverything(query, apiKey, fromDate, toDate, filter)
+            val response =
+                newsService.getEverything(query, apiKey, fromDate, toDate, filter, language)
             if (response.isSuccessful) {
                 val articles = response.body()?.articles ?: emptyList()
 

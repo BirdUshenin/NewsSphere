@@ -178,7 +178,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/radio_button_lang"
                 android:button="@android:color/transparent"
-                android:checked="true"
+                android:checked="false"
                 android:gravity="center"
                 android:text="@string/russian" />
 
