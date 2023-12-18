@@ -1,5 +1,6 @@
 package com.birdushenin.newssphere.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,9 +27,7 @@ class FiltersFragment : Fragment(), FragmentScreen {
     private val filterViewModel: FilterViewModel by activityViewModels()
     private val calendarViewModel: CalendarViewModel by activityViewModels()
     private lateinit var radioGroup: RadioGroup
-    private lateinit var radioGroup2: RadioGroup
-    private var selectedFilter: String? = null
-    private var selectedFilter2: String? = null
+    private lateinit var radioGroupLang: RadioGroup
     private var tempSelectedFilter: String? = null
     private var tempSelectedFilterLang: String? = null
     private var tempStartDate: String? = null
@@ -38,6 +37,7 @@ class FiltersFragment : Fragment(), FragmentScreen {
         return FiltersFragment()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -86,8 +86,8 @@ class FiltersFragment : Fragment(), FragmentScreen {
             }
         }
 
-        radioGroup2 = binding.buttonLang
-        radioGroup2.setOnCheckedChangeListener { _, checkedId ->
+        radioGroupLang = binding.buttonLang
+        radioGroupLang.setOnCheckedChangeListener { _, checkedId ->
             tempSelectedFilterLang = when (checkedId) {
                 R.id.buttonRussian -> "ru"
                 R.id.buttonEnglish -> "en"
@@ -99,12 +99,12 @@ class FiltersFragment : Fragment(), FragmentScreen {
         applyButton.setOnClickListener {
 
             tempSelectedFilter?.let {
-                selectedFilter = it
+//                selectedFilter = it
                 filterViewModel.selectFilterPosition(it)
             }
 
             tempSelectedFilterLang?.let { catch ->
-                selectedFilter2 = catch
+//                selectedFilter2 = catch
                 filterViewModel.selectFilterPositionLang(catch)
             }
 
@@ -194,9 +194,9 @@ class FiltersFragment : Fragment(), FragmentScreen {
 
     private fun restoreSelectedFilterLang(savedFilter: String?) {
         when (savedFilter) {
-            "ru" -> radioGroup2.check(R.id.buttonRussian)
-            "en" -> radioGroup2.check(R.id.buttonEnglish)
-            "de" -> radioGroup2.check(R.id.buttonDeutsch)
+            "ru" -> radioGroupLang.check(R.id.buttonRussian)
+            "en" -> radioGroupLang.check(R.id.buttonEnglish)
+            "de" -> radioGroupLang.check(R.id.buttonDeutsch)
         }
     }
 }
