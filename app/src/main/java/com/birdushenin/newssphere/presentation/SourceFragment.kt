@@ -5,56 +5,70 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.birdushenin.newssphere.R
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.birdushenin.newssphere.MyApplication
+import com.birdushenin.newssphere.data.SourceNews
+import com.birdushenin.newssphere.databinding.FragmentSourceBinding
+import com.birdushenin.newssphere.domain.NewsService
+import com.birdushenin.newssphere.domain.OnSourceItemClickListener
+import com.birdushenin.newssphere.navigation.Screens
+import com.birdushenin.newssphere.presentation.adapters.NewsAdapter
+import com.birdushenin.newssphere.presentation.adapters.SourceAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SourceFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SourceFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val adapter = SourceAdapter()
+    private val sourceViewModel: SourceViewModel by activityViewModels()
+
+    @Inject
+    lateinit var retrofit: Retrofit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_source, container, false)
+    ): View {
+        val binding = FragmentSourceBinding.inflate(layoutInflater)
+        MyApplication.appComponent.inject(this)
+
+        val newsService = retrofit.create(NewsService::class.java)
+
+        val recyclerView = binding.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter
+
+        adapter.setOnUserItemClickListener(object : OnSourceItemClickListener {
+            override fun onNewsItemClicked(sourceNews: SourceNews) {
+                sourceViewModel.selectSource(sourceNews)
+                (requireActivity().application as MyApplication).router.navigateTo(Screens.SourceWindowFragment)
+            }
+        })
+
+        lifecycleScope.launch {
+            loadNews(newsService)
+        }
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SourceFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SourceFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private suspend fun loadNews(newsService: NewsService) {
+        val apiKey = "eae4e313c2d043c183e78149bc172501"
+
+        try {
+            val response = newsService.getSources(apiKey = apiKey)
+            if (response.isSuccessful) {
+                val newsList = response.body()?.sources ?: emptyList()
+                withContext(Dispatchers.Main) {
+                    adapter.submitList(newsList)
                 }
             }
+        } catch (_: Exception) {
+        }
     }
 }

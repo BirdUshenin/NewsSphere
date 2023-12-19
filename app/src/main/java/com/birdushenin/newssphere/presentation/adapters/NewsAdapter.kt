@@ -1,4 +1,4 @@
-package com.birdushenin.newssphere.presentation.adapter
+package com.birdushenin.newssphere.presentation.adapters
 
 import com.birdushenin.newssphere.data.Article
 import com.bumptech.glide.Glide
