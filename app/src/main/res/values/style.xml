@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.Material3.DayNight">
+        <item name="colorSurface">#d1e4ff</item>
+        <item name="colorSecondaryContainer">#00829C</item>
+    </style>
+</resources>
