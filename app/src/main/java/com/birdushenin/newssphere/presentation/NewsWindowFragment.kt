@@ -1,6 +1,7 @@
 package com.birdushenin.newssphere.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,7 @@ class NewsWindowFragment : Fragment(), FragmentScreen {
 
                 binding.button.setOnClickListener {
                     savedViewModel.selectArticle(savedClass)
+                    Log.d("SavedViewModel", "Inserting saved article savedClass: $savedClass")
                 }
             }
         }
