@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".presentation.NewsWindowFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:contentScrim="@color/black"
+            app:contentScrim="@color/blue"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed">
 
             <ImageView
@@ -83,8 +83,8 @@
                     android:id="@+id/name"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="10dp"
+                    android:layout_weight="1"
                     android:text="cs"
                     android:textColor="@color/black"
                     android:textSize="14sp"
@@ -94,9 +94,9 @@
                     android:id="@+id/data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:text="cs"
-                    android:layout_marginStart="10dp"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -105,9 +105,9 @@
                     android:id="@+id/source"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:text="cs"
-                    android:layout_marginStart="10dp"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -131,6 +131,7 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical"
                 android:padding="8dp">
+
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="wrap_content"
