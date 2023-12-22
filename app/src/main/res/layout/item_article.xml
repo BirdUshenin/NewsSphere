@@ -44,17 +44,17 @@
         android:visibility="gone"
         tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/source"
-        android:layout_width="206dp"
-        android:layout_height="24dp"
-        android:textSize="14sp"
+        <TextView
+            android:id="@+id/source"
+            android:layout_width="178dp"
+            android:layout_height="24dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.318"
+            app:layout_constraintStart_toEndOf="@+id/sourceView"
+            app:layout_constraintTop_toTopOf="@+id/image" />
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/image"
-        app:layout_constraintTop_toTopOf="@+id/image" />
-
-    <TextView
+        <TextView
         android:id="@+id/publishedAt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,6 +62,15 @@
         android:textSize="14sp"
         android:visibility="gone"
         tools:ignore="MissingConstraints" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/sourceView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toTopOf="@+id/image" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

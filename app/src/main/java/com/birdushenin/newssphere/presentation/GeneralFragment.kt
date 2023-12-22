@@ -184,7 +184,7 @@ class GeneralFragment : Fragment() {
                     val articleDao =
                         NewsDatabase.getDatabase(requireActivity().applicationContext).articleDao()
                     articleDao.insertArticles(articleEntities)
-                    // TODO in other tread
+                    //TODO in other tread
                 }
             }
         } catch (_: Exception) {

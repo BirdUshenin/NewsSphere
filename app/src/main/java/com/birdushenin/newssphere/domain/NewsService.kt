@@ -14,6 +14,7 @@ interface NewsService {
         @Query("country") country: String = "us",
         @Query("category") category: String = "general",
         @Query("sortBy") sortBy: String = "popular",
+        @Query("sources") source: String? = null,
         @Query("apiKey") apiKey: String
     ): Response<NewsResponse>
 

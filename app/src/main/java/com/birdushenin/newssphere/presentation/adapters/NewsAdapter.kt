@@ -51,6 +51,7 @@ class NewsAdapter : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DIFF_CAL
             binding.description.text = article.description ?: ""
             binding.source.text = article.source.name
             binding.publishedAt.text = article.publishedAt
+            binding.sourceView.setImageResource(article.getSourceDrawable())
             Glide.with(binding.image)
                 .load(article.urlToImage)
                 .into(binding.image)
