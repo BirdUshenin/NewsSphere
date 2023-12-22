@@ -5,12 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.birdushenin.newssphere.data.SavedClass
-import com.birdushenin.newssphere.data.databases.AppDatabase
+import com.birdushenin.newssphere.data.databases.SavedDatabase
 import com.birdushenin.newssphere.data.databases.SavedNewsEntity
 import kotlinx.coroutines.launch
 
 class SavedViewModel(application: Application) : AndroidViewModel(application) {
-    private val savedArticleDao = AppDatabase.getDatabase(application).newsDao()
+    private val savedArticleDao = SavedDatabase.getDatabase(application).newsDao()
     val selectedArticle: LiveData<List<SavedNewsEntity>> = savedArticleDao.getAllSavedNews()
 
     fun selectArticle(savedClass: SavedClass) {

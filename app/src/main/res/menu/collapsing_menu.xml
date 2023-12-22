@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/Headlines"
+        android:title="@string/headlines"
+        app:showAsAction="always|withText"
+        android:icon="@drawable/baseline_back"/>
+    <item
+        android:id="@+id/Saved"
+        android:title="@string/saved"
+        app:showAsAction="always|withText"
+        android:icon="@drawable/ic_saved"/>
+</menu>

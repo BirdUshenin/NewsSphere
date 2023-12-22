@@ -4,4 +4,5 @@
         <item name="colorSurface">#d1e4ff</item>
         <item name="colorSecondaryContainer">#00829C</item>
     </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 </resources>
