@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.activityViewModels
@@ -27,11 +29,14 @@ class NewsWindowFragment : Fragment(), FragmentScreen {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentNewsWindowBinding.inflate(layoutInflater)
-
+//        (binding.toolbar as? Toolbar)?.let {
+//            (requireActivity() as AppCompatActivity).setSupportActionBar(it)
+//        }
         sharedViewModel.selectedArticle.observe(viewLifecycleOwner) { article ->
             article?.let {
-                binding.mainText.text = it.title
-                binding.url.text = it.url
+                binding.mainText.title = it.title
+                binding.name.text = it.title
+                binding.data.text = it.publishedAt
                 binding.description.text = it.description
                 binding.source.text = it.source.name
 
@@ -47,9 +52,13 @@ class NewsWindowFragment : Fragment(), FragmentScreen {
                     it.urlToImage
                 )
 
-                binding.button.setOnClickListener {
+                binding.savedButton.setOnClickListener {
                     savedViewModel.selectArticle(savedClass)
                     Log.d("SavedViewModel", "Inserting saved article savedClass: $savedClass")
+                }
+
+                binding.backButton.setOnClickListener {
+                    activity?.onBackPressed()
                 }
             }
         }
