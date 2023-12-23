@@ -1,25 +1,29 @@
 package com.birdushenin.newssphere.presentation;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.birdushenin.newssphere.MyApplication;
 import com.birdushenin.newssphere.R;
-import com.birdushenin.newssphere.navigation.Screens;
+import com.birdushenin.newssphere.navigation.BottomNavigation;
+import com.github.terrakok.cicerone.NavigatorHolder;
+import com.github.terrakok.cicerone.Router;
 import com.github.terrakok.cicerone.androidx.AppNavigator;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import javax.inject.Inject;
+
 public class MainActivity extends AppCompatActivity {
+    @Inject
+    Router router;
+    @Inject
+    NavigatorHolder navigatorHolder;
     private final Fragment main = new MainFragment();
-    private final Fragment saved = new SavedFragment();
-    private final Fragment sources = new SourceFragment();
-    private Fragment activeFragment = main;
 
     private final AppNavigator navigator = new AppNavigator(this, R.id.fragment_container);
 
@@ -28,45 +32,62 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MyApplication.appComponent.inject(this);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, sources, "3").hide(sources).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, saved, "2").hide(saved).commit();
+        // TODO После реализации сплешскрина убрать
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, main, "1").commit();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.Headlines:
-                    switchFragment(main);
-                    return true;
-                case R.id.Saved:
-                    switchFragment(saved);
-                    return true;
-                case R.id.Sources:
-                    switchFragment(sources);
-                    return true;
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.Headlines:
+                        navigateToTestScreen();
+                        return true;
+                    case R.id.Saved:
+                        navigateToFiltersFragment();
+                        return true;
+                    case R.id.Sources:
+                        navigateToSourceWindowFragment();
+                        return true;
+                    default:
+                        return false;
+                }
             }
-            return false;
         });
     }
+
+    private void navigateToTestScreen() {
+        router.navigateTo(BottomNavigation.MainFragment());
+    }
+
+
     @Override
     public void onResumeFragments() {
         super.onResumeFragments();
+        navigatorHolder.setNavigator(navigator);
         ((MyApplication) getApplication()).getNavigatorHolder().setNavigator(navigator);
+
     }
 
     @Override
     protected void onPause() {
+        navigatorHolder.setNavigator(navigator);
         ((MyApplication) getApplication()).getNavigatorHolder().removeNavigator();
         super.onPause();
     }
 
-    private void switchFragment(Fragment targetFragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .hide(activeFragment)
-                .show(targetFragment)
-                .commit();
-        activeFragment = targetFragment;
+    private void navigateToNewsWindowScreen() {
+        ((MyApplication) getApplication()).getRouter().navigateTo(BottomNavigation.MainFragment());
     }
+
+    private void navigateToFiltersFragment() {
+        ((MyApplication) getApplication()).getRouter().navigateTo(BottomNavigation.SavedFragment());
+    }
+
+    private void navigateToSourceWindowFragment() {
+        ((MyApplication) getApplication()).getRouter().navigateTo(BottomNavigation.SourceFragment());
+    }
+
 }

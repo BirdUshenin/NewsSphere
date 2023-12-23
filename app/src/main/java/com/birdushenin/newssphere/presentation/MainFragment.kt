@@ -17,6 +17,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -25,16 +26,20 @@ import androidx.viewpager2.widget.ViewPager2
 import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.R
 import com.birdushenin.newssphere.navigation.Screens
+import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), FragmentScreen {
 
     private var isSearchMode = false
     private val searchViewModel: SearchViewModel by activityViewModels()
     private lateinit var updateViewModel: UpdateViewModel
     private val filterViewModel: FilterViewModel by activityViewModels()
 
+    override fun createFragment(factory: FragmentFactory): Fragment {
+        return MainFragment()
+    }
 
     @SuppressLint("MissingInflatedId", "CutPasteId")
     override fun onCreateView(

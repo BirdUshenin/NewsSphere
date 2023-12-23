@@ -1,4 +1,4 @@
-package com.birdushenin.newssphere.di
+package com.birdushenin.newssphere.di.module
 
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Cicerone.Companion.create
@@ -13,7 +13,7 @@ class NavigationModule {
 
     @Provides
     @Singleton
-    fun getCicerone(): Cicerone<Router> = create()
+    fun getCicerone(): Cicerone<Router> = Cicerone.create()
 
     @Provides
     @Singleton
@@ -22,4 +22,5 @@ class NavigationModule {
     @Provides
     @Singleton
     fun getNavigationHolder(cicerone: Cicerone<Router>) = cicerone.getNavigatorHolder()
+//    fun getNavigationHolder(cicerone: Cicerone<Router>): NavigatorHolder = cicerone.getNavigatorHolder()
 }

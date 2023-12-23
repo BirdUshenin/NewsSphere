@@ -1,4 +1,4 @@
-package com.birdushenin.newssphere.di
+package com.birdushenin.newssphere.di.module
 
 import dagger.Module
 import dagger.Provides
