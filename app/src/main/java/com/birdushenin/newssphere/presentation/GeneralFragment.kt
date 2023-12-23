@@ -1,5 +1,7 @@
 package com.birdushenin.newssphere.presentation
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +32,7 @@ class GeneralFragment : Fragment() {
 
     private val adapter = NewsAdapter()
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private val updateViewModel: UpdateViewModel by activityViewModels()
     private val sharedViewModel: NewsViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
@@ -88,6 +91,7 @@ class GeneralFragment : Fragment() {
 
         searchViewModel.searchQuery.observe(viewLifecycleOwner, Observer { query ->
             lifecycleScope.launch {
+
                 adapter.submitList(emptyList())
                 if (query?.isNotBlank() == true) {
                     searchArticles(query)
@@ -97,11 +101,18 @@ class GeneralFragment : Fragment() {
             }
         })
 
+        updateViewModel.buttonClicked.observe(viewLifecycleOwner){
+            lifecycleScope.launch {
+                loadNews(newsService, "popular", null, null, null)
+            }
+        }
+
         //RecyclerView
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
-//        recyclerView.smoothScrollToPosition(0)
+        // TODO Предусмотреть кнопку для быстрого перехода вверх
+        //        recyclerView.smoothScrollToPosition(0)
         adapter.setOnUserItemClickListener(object : OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
                 sharedViewModel.selectArticle(article)
@@ -128,25 +139,65 @@ class GeneralFragment : Fragment() {
         return binding.root
     }
 
-    private suspend fun searchArticles(query: String) {
-        val articleDao = NewsDatabase.getDatabase(requireActivity().applicationContext).articleDao()
-        val searchResults = articleDao.searchArticles(query)
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
 
-        val searchResultsList = searchResults.map { articleEntity ->
-            Article(
-                source = Source(articleEntity.sourceId, articleEntity.sourceName),
-                author = articleEntity.author,
-                title = articleEntity.title,
-                description = articleEntity.description,
-                url = articleEntity.url,
-                urlToImage = articleEntity.urlToImage,
-                publishedAt = articleEntity.publishedAt,
-                content = articleEntity.content
-            )
+    private suspend fun searchArticles(query: String) {
+        val context = requireActivity().applicationContext
+        val articleDao = NewsDatabase.getDatabase(context).articleDao()
+        val apiKey = "6aae4c71707e4bf4b0bfbe63df5edd15"
+        var searchResults: List<Article>
+
+        if (isInternetAvailable(context)) {
+            try {
+                val newsService = retrofit.create(NewsService::class.java)
+                val response = newsService.getEverything(query, apiKey, null, null, null, null)
+
+                if (response.isSuccessful) {
+                    searchResults = response.body()?.articles ?: emptyList()
+                    val articleEntities = searchResults.map { article ->
+                        ArticleEntity(
+                            sourceId = article.source.id,
+                            sourceName = article.source.name,
+                            author = article.author,
+                            title = article.title,
+                            description = article.description,
+                            url = article.url,
+                            urlToImage = article.urlToImage,
+                            publishedAt = article.publishedAt,
+                            content = article.content
+                        )
+                    }
+                    articleDao.deleteAllArticles()
+                    articleDao.insertArticles(articleEntities)
+                } else {
+                    searchResults = emptyList()
+                }
+            } catch (e: Exception) {
+                searchResults = emptyList()
+            }
+        } else {
+            val offlineArticles = articleDao.searchArticles(query)
+            searchResults = offlineArticles.map { articleEntity ->
+                Article(
+                    source = Source(articleEntity.sourceId, articleEntity.sourceName),
+                    author = articleEntity.author,
+                    title = articleEntity.title,
+                    description = articleEntity.description,
+                    url = articleEntity.url,
+                    urlToImage = articleEntity.urlToImage,
+                    publishedAt = articleEntity.publishedAt,
+                    content = articleEntity.content
+                )
+            }
         }
 
         withContext(Dispatchers.Main) {
-            adapter.submitList(searchResultsList)
+            adapter.submitList(searchResults)
         }
     }
 
@@ -158,7 +209,8 @@ class GeneralFragment : Fragment() {
         language: String?
     ) {
         val query = "general"
-        val apiKey = "eae4e313c2d043c183e78149bc172501"
+        val apiKey = "6aae4c71707e4bf4b0bfbe63df5edd15"
+        // 6aae4c71707e4bf4b0bfbe63df5edd15 eae4e313c2d043c183e78149bc172501
 
         try {
             val response =
@@ -179,6 +231,10 @@ class GeneralFragment : Fragment() {
                         content = article.content
                     )
                 }
+
+                val articleDao = NewsDatabase.getDatabase(requireActivity().applicationContext).articleDao()
+                articleDao.deleteAllArticles()
+
                 withContext(Dispatchers.Main) {
                     adapter.submitList(articles)
                     val articleDao =

@@ -54,17 +54,17 @@ class BusinessFragment : Fragment() {
 
         lifecycleScope.launch {
             binding.progressBar.visibility = View.GONE
-            loadNews(newsService)
+            loadNews(newsService, q = "Elon")
         }
 
         return binding.root
     }
 
-    private suspend fun loadNews(newsService: NewsService) {
+    private suspend fun loadNews(newsService: NewsService, q: String) {
         val apiKey = "eae4e313c2d043c183e78149bc172501"
 
         try {
-            val response = newsService.getTopHeadlines(apiKey = apiKey)
+            val response = newsService.getRelevant(apiKey = apiKey, query = q)
             if (response.isSuccessful) {
                 val newsList = response.body()?.articles ?: emptyList()
                 withContext(Dispatchers.Main) {

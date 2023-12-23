@@ -56,10 +56,23 @@
 
             <EditText
                 android:id="@+id/editSearch"
-                android:layout_width="250dp"
+                android:layout_width="200dp"
                 android:textColor="@color/white"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textCursorDrawable="@color/white"
+                android:backgroundTint="@android:color/transparent"
                 android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/btnSearchBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:visibility="gone"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/baseline_back" />
 
             <ImageButton
                 android:id="@+id/btnSearchThis"
@@ -69,7 +82,7 @@
                 android:visibility="gone"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/baseline_search" />
+                android:src="@drawable/baseline_clear" />
 
         </androidx.appcompat.widget.Toolbar>
 

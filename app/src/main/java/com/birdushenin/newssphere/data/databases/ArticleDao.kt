@@ -16,4 +16,7 @@ interface ArticleDao {
 
     @Query("SELECT * FROM articles WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
     suspend fun searchArticles(query: String): List<ArticleEntity>
+
+    @Query("DELETE FROM articles")
+    suspend fun deleteAllArticles()
 }
