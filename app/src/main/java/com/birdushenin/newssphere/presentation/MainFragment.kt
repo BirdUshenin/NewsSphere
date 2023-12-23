@@ -14,9 +14,11 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -31,6 +33,8 @@ class MainFragment : Fragment() {
     private var isSearchMode = false
     private val searchViewModel: SearchViewModel by activityViewModels()
     private lateinit var updateViewModel: UpdateViewModel
+    private val filterViewModel: FilterViewModel by activityViewModels()
+
 
     @SuppressLint("MissingInflatedId", "CutPasteId")
     override fun onCreateView(
@@ -50,7 +54,7 @@ class MainFragment : Fragment() {
         val btnSearch: ImageButton = view.findViewById(R.id.btnSearch)
         val btnSearchThis: ImageButton = view.findViewById(R.id.btnSearchThis)
         val editText: EditText = view.findViewById(R.id.editSearch)
-        val btnFilter: ImageButton = view.findViewById(R.id.btnFilter)
+        val btnFilter: ImageView = view.findViewById(R.id.btnFilter)
         val toolbarTitle: TextView = view.findViewById(R.id.toolbar_title)
         val btnSearchBack: ImageButton = view.findViewById(R.id.btnSearchBack)
         updateViewModel = ViewModelProvider(requireActivity()).get(UpdateViewModel::class.java)
@@ -93,6 +97,10 @@ class MainFragment : Fragment() {
             editText.text.clear()
         }
 
+        filterViewModel.filterCountEvent.observe(viewLifecycleOwner, Observer {
+            updateImageBasedOnFilterCount(filterViewModel.appliedFilterCount.value ?: 0)
+        })
+
         editText.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 val query = editText.text.toString()
@@ -124,6 +132,19 @@ class MainFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun updateImageBasedOnFilterCount(count: Int) {
+        val btnFilter: ImageView = requireView().findViewById(R.id.btnFilter)
+        val imageToDisplay = when (count) {
+            1 -> R.drawable.point1
+            2 -> R.drawable.point2
+            3 -> R.drawable.point3
+            4 -> R.drawable.point3
+            else -> R.drawable.point
+        }
+
+        btnFilter.setImageResource(imageToDisplay)
     }
 
     private fun showKeyboard(editText: EditText) {
