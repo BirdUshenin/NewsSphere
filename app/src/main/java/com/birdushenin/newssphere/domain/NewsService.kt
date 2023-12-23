@@ -31,17 +31,16 @@ interface NewsService {
 
     @GET("/v2/sources")
     suspend fun getSources(
+        @Query("q") query: String? = null,
         @Query("apiKey") apiKey: String,
         @Query("id") id: String? = null,
         @Query("source") source: String? = null
     ): Response<SourceResponse>
 
     @Headers("Content-Type: application/json")
-    @GET("everything")
+    @GET("top-headlines")
     suspend fun getRelevant(
         @Query("q") query: String? = null,
-        @Query("sortBy") sortBy: String = "publishedAt",
-        @Query("language") language: String = "en",
         @Query("apiKey") apiKey: String
     ): Response<NewsResponse>
 

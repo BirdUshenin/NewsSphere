@@ -1,26 +1,28 @@
 package com.birdushenin.newssphere.presentation
 
 import android.annotation.SuppressLint
-import android.graphics.Color
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.R
 import com.birdushenin.newssphere.navigation.Screens
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -28,6 +30,7 @@ class MainFragment : Fragment() {
 
     private var isSearchMode = false
     private val searchViewModel: SearchViewModel by activityViewModels()
+    private lateinit var updateViewModel: UpdateViewModel
 
     @SuppressLint("MissingInflatedId", "CutPasteId")
     override fun onCreateView(
@@ -49,6 +52,8 @@ class MainFragment : Fragment() {
         val editText: EditText = view.findViewById(R.id.editSearch)
         val btnFilter: ImageButton = view.findViewById(R.id.btnFilter)
         val toolbarTitle: TextView = view.findViewById(R.id.toolbar_title)
+        val btnSearchBack: ImageButton = view.findViewById(R.id.btnSearchBack)
+        updateViewModel = ViewModelProvider(requireActivity()).get(UpdateViewModel::class.java)
 
         val pagerAdapter = PagerAdapter(this)
         viewPager.adapter = pagerAdapter
@@ -68,22 +73,44 @@ class MainFragment : Fragment() {
             }?.let { tab.setIcon(it) }
         }.attach()
 
+        btnSearchBack.setOnClickListener {
+            hideKeyboard()
+            updateViewModel.onButtonClicked()
+            hideSearchFragment()
+            btnSearchThis.visibility = View.GONE
+            editText.visibility = View.GONE
+            btnFilter.visibility = View.VISIBLE
+            toolbarTitle.visibility = View.VISIBLE
+            btnSearch.visibility = View.VISIBLE
+            btnSearchBack.visibility = View.GONE
+        }
+
         btnFilter.setOnClickListener{
             (requireActivity().application as MyApplication).router.navigateTo(Screens.FiltersFragment)
         }
 
         btnSearchThis.setOnClickListener {
-            val query = editText.text.toString()
-            searchViewModel.searchQuery.value = query
+            editText.text.clear()
         }
 
+        editText.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                val query = editText.text.toString()
+                searchViewModel.searchQuery.value = query
+                return@setOnKeyListener true
+            }
+            false
+        }
         btnSearch.setOnClickListener {
             if (!isSearchMode) {
+                showKeyboard(editText)
                 showSearchFragment()
                 btnFilter.visibility = View.GONE
                 btnSearchThis.visibility = View.VISIBLE
                 editText.visibility = View.VISIBLE
                 toolbarTitle.visibility = View.GONE
+                btnSearch.visibility = View.GONE
+                btnSearchBack.visibility = View.VISIBLE
 
             } else {
                 hideSearchFragment()
@@ -91,10 +118,27 @@ class MainFragment : Fragment() {
                 editText.visibility = View.GONE
                 btnFilter.visibility = View.VISIBLE
                 toolbarTitle.visibility = View.VISIBLE
+                btnSearch.visibility = View.VISIBLE
+                btnSearchBack.visibility = View.GONE
             }
         }
 
         return view
+    }
+
+    private fun showKeyboard(editText: EditText) {
+        editText.isFocusableInTouchMode = true
+        editText.requestFocus()
+        editText.setSelection(0)
+        editText.postDelayed({
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        }, 100)
+    }
+
+    private fun hideKeyboard() {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun showSearchFragment() {
