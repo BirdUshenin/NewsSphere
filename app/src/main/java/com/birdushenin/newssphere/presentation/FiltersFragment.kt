@@ -75,7 +75,6 @@ class FiltersFragment : Fragment(), FragmentScreen {
                 restoreSelectedFilterLang(selectedFilterPositionLang)
             })
 
-
         radioGroup = binding.radioButton
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             tempSelectedFilter = when (checkedId) {
@@ -99,12 +98,10 @@ class FiltersFragment : Fragment(), FragmentScreen {
         applyButton.setOnClickListener {
 
             tempSelectedFilter?.let {
-//                selectedFilter = it
                 filterViewModel.selectFilterPosition(it)
             }
 
             tempSelectedFilterLang?.let { catch ->
-//                selectedFilter2 = catch
                 filterViewModel.selectFilterPositionLang(catch)
             }
 
@@ -141,6 +138,21 @@ class FiltersFragment : Fragment(), FragmentScreen {
                 tempEndDate,
                 tempSelectedFilterLang
             )
+
+            if (tempSelectedFilterLang != null && filterViewModel.xValue == 0) {
+                filterViewModel.incrementFilterCount()
+                filterViewModel.xValue++
+            }
+
+            if (tempStartDate != null && filterViewModel.yValue == 0) {
+                filterViewModel.incrementFilterCount()
+                filterViewModel.yValue++
+            }
+
+            if (tempSelectedFilter != null && filterViewModel.zValue == 0) {
+                filterViewModel.incrementFilterCount()
+                filterViewModel.zValue++
+            }
 
             activity?.onBackPressed()
         }
