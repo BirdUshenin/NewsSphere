@@ -1,5 +1,6 @@
 package com.birdushenin.newssphere.data.databases
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -11,5 +12,9 @@ data class SavedNewsEntity(
     val urlText: String?,
     val descriptionText: String?,
     val sourceText: String?,
-    val imagePic: String?
+    val imagePic: String?,
+
+
+    @ColumnInfo(name = "timestamp")
+    val timestamp: Long
 )

@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     NavigatorHolder navigatorHolder;
     private final Fragment main = new MainFragment();
-
     private final AppNavigator navigator = new AppNavigator(this, R.id.fragment_container);
 
     @SuppressLint("NonConstantResourceId")
@@ -62,13 +61,11 @@ public class MainActivity extends AppCompatActivity {
         router.navigateTo(BottomNavigation.MainFragment());
     }
 
-
     @Override
     public void onResumeFragments() {
         super.onResumeFragments();
         navigatorHolder.setNavigator(navigator);
         ((MyApplication) getApplication()).getNavigatorHolder().setNavigator(navigator);
-
     }
 
     @Override
@@ -89,5 +86,4 @@ public class MainActivity extends AppCompatActivity {
     private void navigateToSourceWindowFragment() {
         ((MyApplication) getApplication()).getRouter().navigateTo(BottomNavigation.SourceFragment());
     }
-
 }
