@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
                         navigateToTestScreen();
                         return true;
                     case R.id.Saved:
-                        navigateToFiltersFragment();
+                        navigateToTestScreen2();
                         return true;
                     case R.id.Sources:
-                        navigateToSourceWindowFragment();
+                        navigateToTestScreen3();
                         return true;
                     default:
                         return false;
@@ -59,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void navigateToTestScreen() {
         router.navigateTo(BottomNavigation.MainFragment());
+    }
+    private void navigateToTestScreen2() {
+        router.navigateTo(BottomNavigation.SavedFragment());
+    }
+    private void navigateToTestScreen3() {
+        router.navigateTo(BottomNavigation.SourceFragment());
     }
 
     @Override

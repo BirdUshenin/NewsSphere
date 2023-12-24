@@ -30,6 +30,8 @@ import javax.inject.Inject
 
 class GeneralFragment : Fragment() {
 
+    private lateinit var binding: FragmentGeneralBinding
+
     private val adapter = NewsAdapter()
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val updateViewModel: UpdateViewModel by activityViewModels()
@@ -44,7 +46,7 @@ class GeneralFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentGeneralBinding.inflate(layoutInflater)
+        binding = FragmentGeneralBinding.inflate(layoutInflater)
         MyApplication.appComponent.inject(this)
 
         val newsService = retrofit.create(NewsService::class.java)
@@ -123,7 +125,7 @@ class GeneralFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
-            binding.progressBar.visibility = View.GONE
+
             if (selectedFilter == null) {
                 loadNews(newsService, "popular", null, null, null)
             } else {
@@ -197,6 +199,7 @@ class GeneralFragment : Fragment() {
         }
 
         withContext(Dispatchers.Main) {
+            binding.progressBar.visibility = View.GONE
             adapter.submitList(searchResults)
         }
     }
@@ -236,6 +239,8 @@ class GeneralFragment : Fragment() {
                 articleDao.deleteAllArticles()
 
                 withContext(Dispatchers.Main) {
+
+                    binding.progressBar.visibility = View.GONE
                     adapter.submitList(articles)
                     val articleDao =
                         NewsDatabase.getDatabase(requireActivity().applicationContext).articleDao()
@@ -260,6 +265,7 @@ class GeneralFragment : Fragment() {
                 )
             }
             withContext(Dispatchers.Main) {
+                binding.progressBar.visibility = View.GONE
                 adapter.submitList(offlineArticlesList)
             }
         }
