@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,8 @@ import javax.inject.Inject
 
 class BusinessFragment : Fragment() {
 
+    private lateinit var binding: FragmentBusinessBinding
+
     private val adapter = NewsAdapter()
     private val sharedViewModel: NewsViewModel by activityViewModels()
     @Inject
@@ -33,7 +36,7 @@ class BusinessFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = FragmentBusinessBinding.inflate(layoutInflater)
+        binding = FragmentBusinessBinding.inflate(layoutInflater)
         MyApplication.appComponent.inject(this)
 
         val newsService = retrofit.create(NewsService::class.java)
@@ -53,7 +56,7 @@ class BusinessFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
-            binding.progressBar.visibility = View.GONE
+
             loadNews(newsService, q = "Elon")
         }
 
@@ -64,11 +67,13 @@ class BusinessFragment : Fragment() {
         val apiKey = "eae4e313c2d043c183e78149bc172501"
 
         try {
+
             val response = newsService.getRelevant(apiKey = apiKey, query = q)
             if (response.isSuccessful) {
                 val newsList = response.body()?.articles ?: emptyList()
                 withContext(Dispatchers.Main) {
                     adapter.submitList(newsList)
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         } catch (_: Exception) { }

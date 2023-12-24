@@ -25,17 +25,21 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.R
+import com.birdushenin.newssphere.domain.MainContract
+import com.birdushenin.newssphere.domain.MainPresenter
 import com.birdushenin.newssphere.navigation.Screens
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class MainFragment : Fragment(), FragmentScreen {
+class MainFragment : Fragment(), FragmentScreen, MainContract.View{
 
-    private var isSearchMode = false
-    private val searchViewModel: SearchViewModel by activityViewModels()
+    private lateinit var presenter: MainContract.Presenter
+
     private lateinit var updateViewModel: UpdateViewModel
     private val filterViewModel: FilterViewModel by activityViewModels()
+    private val searchViewModel: SearchViewModel by activityViewModels()
+    private var isSearchMode = false
 
     override fun createFragment(factory: FragmentFactory): Fragment {
         return MainFragment()
@@ -46,12 +50,14 @@ class MainFragment : Fragment(), FragmentScreen {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val window: Window = requireActivity().window
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.blue)
-        }
+        presenter = MainPresenter(this)
+        presenter.onViewCreated()
+
+
+        val window: Window = requireActivity().window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.blue)
 
         val view = inflater.inflate(R.layout.fragment_main, container, false)
         val viewPager: ViewPager2 = view.findViewById(R.id.viewPager)
@@ -62,7 +68,7 @@ class MainFragment : Fragment(), FragmentScreen {
         val btnFilter: ImageView = view.findViewById(R.id.btnFilter)
         val toolbarTitle: TextView = view.findViewById(R.id.toolbar_title)
         val btnSearchBack: ImageButton = view.findViewById(R.id.btnSearchBack)
-        updateViewModel = ViewModelProvider(requireActivity()).get(UpdateViewModel::class.java)
+        updateViewModel = ViewModelProvider(requireActivity())[UpdateViewModel::class.java]
 
         val pagerAdapter = PagerAdapter(this)
         viewPager.adapter = pagerAdapter
@@ -139,7 +145,8 @@ class MainFragment : Fragment(), FragmentScreen {
         return view
     }
 
-    private fun updateImageBasedOnFilterCount(count: Int) {
+
+    override fun updateImageBasedOnFilterCount(count: Int) {
         val btnFilter: ImageView = requireView().findViewById(R.id.btnFilter)
         val imageToDisplay = when (count) {
             1 -> R.drawable.point1
@@ -167,11 +174,11 @@ class MainFragment : Fragment(), FragmentScreen {
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
-    private fun showSearchFragment() {
+    override fun showSearchFragment() {
         isSearchMode = true
     }
 
-    private fun hideSearchFragment() {
+    override fun hideSearchFragment() {
         parentFragmentManager.popBackStack()
         isSearchMode = false
     }
