@@ -7,15 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.birdushenin.newssphere.R
 import com.birdushenin.newssphere.data.SavedClass
 import com.birdushenin.newssphere.databinding.FragmentNewsWindowBinding
 import com.birdushenin.newssphere.presentation.saved.SavedViewModel
 import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import kotlinx.coroutines.launch
 
 class NewsWindowFragment : Fragment(), FragmentScreen {
 
@@ -57,8 +60,9 @@ class NewsWindowFragment : Fragment(), FragmentScreen {
                     it.urlToImage
                 )
 
-                fun updateButtonImage() {
-                    val imageResource = if (savedViewModel.isArticleSaved) {
+                lifecycleScope.launch {
+                    val savedNewsEntity = savedViewModel.savedArticleDao.getSavedNewsByTitleAndUrl(savedClass.titleText, savedClass.urlText)
+                    val imageResource = if (savedNewsEntity != null) {
                         R.drawable.ic_saved
                     } else {
                         R.drawable.baseline_save
@@ -67,14 +71,18 @@ class NewsWindowFragment : Fragment(), FragmentScreen {
                 }
 
                 binding.savedButton.setOnClickListener {
-                    if (!savedViewModel.isArticleSaved){
-                        savedViewModel.selectArticle(savedClass)
-                        savedViewModel.isArticleSaved = true
-                    } else {
-                        savedViewModel.deleteArticle(savedClass)
-                        savedViewModel.isArticleSaved = false
+                    lifecycleScope.launch {
+                        val savedNewsEntity = savedViewModel.savedArticleDao.getSavedNewsByTitleAndUrl(savedClass.titleText, savedClass.urlText)
+                        if (savedNewsEntity != null) {
+                            binding.savedButton.setImageResource(R.drawable.baseline_save)
+                            savedViewModel.deleteArticle(savedClass)
+                            Toast.makeText(context, "News removed from saved", Toast.LENGTH_SHORT).show()
+                        } else {
+                            binding.savedButton.setImageResource(R.drawable.ic_saved)
+                            savedViewModel.selectArticle(savedClass)
+                            Toast.makeText(context, "News saved", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                    updateButtonImage()
                 }
 
                 binding.backButton.setOnClickListener {
