@@ -13,7 +13,7 @@ import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.databinding.FragmentSportsBinding
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
 import com.birdushenin.newssphere.domain.SportNews
-import com.birdushenin.newssphere.navigation.Screens
+import com.birdushenin.newssphere.navigation.HeadlinesScreens
 import com.birdushenin.newssphere.presentation.headlines.NewsViewModel
 import com.birdushenin.newssphere.presentation.adapters.NewsAdapter
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,7 @@ class SportsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentSportsBinding.inflate(layoutInflater)
         MyApplication.appComponent.inject(this)
 
@@ -46,7 +46,7 @@ class SportsFragment : Fragment() {
         adapter.setOnUserItemClickListener(object: OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
                 sharedViewModel.selectArticle(article)
-                (requireActivity().application as MyApplication).router.navigateTo(Screens.NewsWindowScreen)
+                (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.NewsWindowScreen)
             }
         })
 

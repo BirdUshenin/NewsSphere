@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -26,16 +26,16 @@ import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.R
 import com.birdushenin.newssphere.mvp.MainContract
 import com.birdushenin.newssphere.mvp.MainPresenter
-import com.birdushenin.newssphere.navigation.Screens
-import com.birdushenin.newssphere.presentation.headlines.sports.SportsFragment
+import com.birdushenin.newssphere.navigation.HeadlinesScreens
 import com.birdushenin.newssphere.presentation.headlines.business.BusinessFragment
 import com.birdushenin.newssphere.presentation.headlines.filters.FilterViewModel
 import com.birdushenin.newssphere.presentation.headlines.general.GeneralFragment
+import com.birdushenin.newssphere.presentation.headlines.sports.SportsFragment
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class MainFragment : Fragment(), FragmentScreen, MainContract.View{
+class MainFragment : Fragment(), FragmentScreen, MainContract.View {
 
     private lateinit var presenter: MainContract.Presenter
 
@@ -77,13 +77,13 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View{
         viewPager.adapter = pagerAdapter
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = when (position){
+            tab.text = when (position) {
                 0 -> "General"
                 1 -> "Business"
                 2 -> "Sports"
                 else -> null
             }
-            when(position){
+            when (position) {
                 0 -> R.drawable.baseline_public
                 1 -> R.drawable.query_stats
                 2 -> R.drawable.baseline_sports
@@ -103,8 +103,8 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View{
             btnSearchBack.visibility = View.GONE
         }
 
-        btnFilter.setOnClickListener{
-            (requireActivity().application as MyApplication).router.navigateTo(Screens.FiltersFragment)
+        btnFilter.setOnClickListener {
+            (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.FiltersFragment)
         }
 
         btnSearchThis.setOnClickListener {
@@ -173,7 +173,8 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View{
     }
 
     private fun hideKeyboard() {
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 

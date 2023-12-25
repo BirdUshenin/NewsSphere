@@ -1,10 +1,10 @@
 package com.birdushenin.newssphere.presentation.sources
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,7 +14,7 @@ import com.birdushenin.newssphere.data.SourceNews
 import com.birdushenin.newssphere.databinding.FragmentSourceBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnSourceItemClickListener
-import com.birdushenin.newssphere.navigation.Screens
+import com.birdushenin.newssphere.navigation.HeadlinesScreens
 import com.birdushenin.newssphere.presentation.adapters.SourceAdapter
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +51,7 @@ class SourceFragment : Fragment(), FragmentScreen {
         adapter.setOnUserItemClickListener(object : OnSourceItemClickListener {
             override fun onNewsItemClicked(sourceNews: SourceNews) {
                 sourceViewModel.selectSource(sourceNews)
-                (requireActivity().application as MyApplication).router.navigateTo(Screens.SourceWindowFragment)
+                (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.SourceWindowFragment)
             }
         })
 

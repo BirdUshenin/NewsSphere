@@ -7,7 +7,6 @@ import javax.inject.Inject
 class NetworkRepository @Inject constructor(
     private val newsService: NewsService,
 ) {
-
     suspend fun loadNews(
         filter: String,
         fromDate: String?,

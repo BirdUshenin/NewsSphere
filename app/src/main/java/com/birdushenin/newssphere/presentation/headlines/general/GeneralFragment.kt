@@ -21,11 +21,11 @@ import com.birdushenin.newssphere.data.databases.entities.ArticleEntity
 import com.birdushenin.newssphere.databinding.FragmentGeneralBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
-import com.birdushenin.newssphere.navigation.Screens
+import com.birdushenin.newssphere.navigation.HeadlinesScreens
+import com.birdushenin.newssphere.presentation.adapters.NewsAdapter
 import com.birdushenin.newssphere.presentation.headlines.NewsViewModel
 import com.birdushenin.newssphere.presentation.headlines.SearchViewModel
 import com.birdushenin.newssphere.presentation.headlines.UpdateViewModel
-import com.birdushenin.newssphere.presentation.adapters.NewsAdapter
 import com.birdushenin.newssphere.presentation.headlines.filters.FilterViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -99,7 +99,6 @@ class GeneralFragment : Fragment() {
 
         searchViewModel.searchQuery.observe(viewLifecycleOwner, Observer { query ->
             lifecycleScope.launch {
-
                 adapter.submitList(emptyList())
                 if (query?.isNotBlank() == true) {
                     searchArticles(query)
@@ -124,7 +123,7 @@ class GeneralFragment : Fragment() {
         adapter.setOnUserItemClickListener(object : OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
                 sharedViewModel.selectArticle(article)
-                (requireActivity().application as MyApplication).router.navigateTo(Screens.NewsWindowScreen)
+                (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.NewsWindowScreen)
             }
         })
 

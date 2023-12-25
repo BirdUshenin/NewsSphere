@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.R
-import com.birdushenin.newssphere.navigation.Screens
-import com.github.terrakok.cicerone.androidx.AppNavigator
+import com.birdushenin.newssphere.navigation.HeadlinesScreens
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class TestFragment : Fragment() {
@@ -21,7 +20,8 @@ class TestFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_test, container, false)
 
-        val bottomNavigationView: BottomNavigationView? = view.findViewById(R.id.bottom_navigation_fragment)
+        val bottomNavigationView: BottomNavigationView? =
+            view.findViewById(R.id.bottom_navigation_fragment)
 
         bottomNavigationView?.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -29,14 +29,17 @@ class TestFragment : Fragment() {
                     navigateToNewsWindowScreen()
                     return@setOnNavigationItemSelectedListener true
                 }
+
                 R.id.Saved -> {
                     navigateToFiltersFragment()
                     return@setOnNavigationItemSelectedListener true
                 }
+
                 R.id.Sources -> {
                     navigateToSourceWindowFragment()
                     return@setOnNavigationItemSelectedListener true
                 }
+
                 else -> false
             }
         }
@@ -60,15 +63,15 @@ class TestFragment : Fragment() {
 //    }
 
     private fun navigateToNewsWindowScreen() {
-        (requireActivity().application as MyApplication).router.navigateTo(Screens.NewsWindowScreen)
+        (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.NewsWindowScreen)
     }
 
     private fun navigateToFiltersFragment() {
-        (requireActivity().application as MyApplication).router.navigateTo(Screens.FiltersFragment)
+        (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.FiltersFragment)
     }
 
     private fun navigateToSourceWindowFragment() {
-        (requireActivity().application as MyApplication).router.navigateTo(Screens.SourceWindowFragment)
+        (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.SourceWindowFragment)
     }
 
 }

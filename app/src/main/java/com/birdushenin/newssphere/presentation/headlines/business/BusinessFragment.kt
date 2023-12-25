@@ -13,7 +13,7 @@ import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.databinding.FragmentBusinessBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
-import com.birdushenin.newssphere.navigation.Screens
+import com.birdushenin.newssphere.navigation.HeadlinesScreens
 import com.birdushenin.newssphere.presentation.headlines.NewsViewModel
 import com.birdushenin.newssphere.presentation.adapters.NewsAdapter
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +49,7 @@ class BusinessFragment : Fragment() {
         adapter.setOnUserItemClickListener(object: OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
                 sharedViewModel.selectArticle(article)
-                (requireActivity().application as MyApplication).router.navigateTo(Screens.NewsWindowScreen)
+                (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.NewsWindowScreen)
             }
         })
 
@@ -67,7 +67,6 @@ class BusinessFragment : Fragment() {
         val apiKey = "eae4e313c2d043c183e78149bc172501"
 
         try {
-
             val response = newsService.getRelevant(apiKey = apiKey, query = q)
             if (response.isSuccessful) {
                 val newsList = response.body()?.articles ?: emptyList()
