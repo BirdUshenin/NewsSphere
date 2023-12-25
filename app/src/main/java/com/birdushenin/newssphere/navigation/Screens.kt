@@ -1,11 +1,8 @@
 package com.birdushenin.newssphere.navigation
 
-import com.birdushenin.newssphere.presentation.FiltersFragment
-import com.birdushenin.newssphere.presentation.MainFragment
-import com.birdushenin.newssphere.presentation.NewsWindowFragment
-import com.birdushenin.newssphere.presentation.SavedFragment
-import com.birdushenin.newssphere.presentation.SourceFragment
-import com.birdushenin.newssphere.presentation.SourceWindowFragment
+import com.birdushenin.newssphere.presentation.headlines.filters.FiltersFragment
+import com.birdushenin.newssphere.presentation.headlines.NewsWindowFragment
+import com.birdushenin.newssphere.presentation.sources.SourceWindowFragment
 
 object Screens {
     val NewsWindowScreen = NewsWindowFragment()

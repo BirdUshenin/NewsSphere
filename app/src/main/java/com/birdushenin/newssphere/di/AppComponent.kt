@@ -1,19 +1,23 @@
 package com.birdushenin.newssphere.di
 
+import android.content.Context
+import com.birdushenin.newssphere.di.module.DatabaseModule
 import com.birdushenin.newssphere.di.module.NavigationModule
 import com.birdushenin.newssphere.di.module.RetrofitModule
-import com.birdushenin.newssphere.presentation.GeneralFragment
-import com.birdushenin.newssphere.presentation.BusinessFragment
+import com.birdushenin.newssphere.domain.ClearOldDataWorker
+import com.birdushenin.newssphere.presentation.headlines.business.BusinessFragment
+import com.birdushenin.newssphere.presentation.headlines.general.GeneralFragment
 import com.birdushenin.newssphere.presentation.MainActivity
-import com.birdushenin.newssphere.presentation.SourceFragment
-import com.birdushenin.newssphere.presentation.SourceWindowFragment
-import com.birdushenin.newssphere.presentation.SportsFragment
+import com.birdushenin.newssphere.presentation.sources.SourceFragment
+import com.birdushenin.newssphere.presentation.sources.SourceWindowFragment
+import com.birdushenin.newssphere.presentation.headlines.sports.SportsFragment
+import com.birdushenin.newssphere.presentation.headlines.general.GeneralViewModelFactory
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component (modules = [RetrofitModule::class, NavigationModule::class])
-
+@Component (modules = [RetrofitModule::class, NavigationModule::class, DatabaseModule::class])
 interface AppComponent {
     fun inject(fragment: GeneralFragment)
     fun inject(fragment: BusinessFragment)
@@ -21,4 +25,13 @@ interface AppComponent {
     fun inject(fragment: SourceFragment)
     fun inject(fragment: SourceWindowFragment)
     fun inject(activity: MainActivity)
+    fun inject(worker: ClearOldDataWorker)
+    fun viewModelsFactory(): GeneralViewModelFactory
+
+    @Component.Factory
+    interface Factory {
+        // With @BindsInstance, the Context passed in will be available in the graph
+        fun create(@BindsInstance context: Context): AppComponent
+    }
+
 }

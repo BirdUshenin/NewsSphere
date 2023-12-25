@@ -1,8 +1,8 @@
 package com.birdushenin.newssphere.navigation;
 
-import com.birdushenin.newssphere.presentation.MainFragment;
-import com.birdushenin.newssphere.presentation.SavedFragment;
-import com.birdushenin.newssphere.presentation.SourceFragment;
+import com.birdushenin.newssphere.presentation.headlines.MainFragment;
+import com.birdushenin.newssphere.presentation.saved.SavedFragment;
+import com.birdushenin.newssphere.presentation.sources.SourceFragment;
 import com.github.terrakok.cicerone.Screen;
 
 public class BottomNavigation {

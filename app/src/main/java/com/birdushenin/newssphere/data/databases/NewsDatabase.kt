@@ -4,15 +4,26 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.birdushenin.newssphere.data.databases.daos.ArticleDao
+import com.birdushenin.newssphere.data.databases.daos.SavedNewsDao
+import com.birdushenin.newssphere.data.databases.entities.ArticleEntity
+import com.birdushenin.newssphere.data.databases.entities.SavedNewsEntity
 
-@Database(entities = [ArticleEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [
+        ArticleEntity::class,
+        SavedNewsEntity::class,
+    ], version = 1, exportSchema = false
+)
 abstract class NewsDatabase : RoomDatabase() {
 
     abstract fun articleDao(): ArticleDao
+    abstract fun savedNewsDao(): SavedNewsDao
 
     companion object {
 
         private const val DATABASE_NAME = "news_database"
+
         @Volatile
         private var INSTANCE: NewsDatabase? = null
 

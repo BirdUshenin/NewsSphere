@@ -46,14 +46,12 @@ class TestFragment : Fragment() {
 //    override fun onResume() {
 //        super.onResume()
 //
-//        // Проверяем, привязан ли фрагмент к активности перед выполнением операций
 //        if (isAdded) {
 //            (requireActivity().application as MyApplication).navigatorHolder.setNavigator(navigator)
 //        }
 //    }
 //
 //    override fun onPause() {
-//        // Проверяем, привязан ли фрагмент к активности перед выполнением операций
 //        if (isAdded) {
 //            (requireActivity().application as MyApplication).navigatorHolder.removeNavigator()
 //        }
