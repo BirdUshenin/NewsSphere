@@ -34,6 +34,7 @@ class SavedViewModel(application: Application) : AndroidViewModel(application) {
                     descriptionText = savedClass.descriptionText,
                     sourceText = savedClass.sourceText,
                     imagePic = savedClass.imagePic,
+                    publishedAt = savedClass.publishedAt,
                     timestamp = currentTimeMillis
                 )
                 savedArticleDao.insertSavedNews(savedArticleEntity)

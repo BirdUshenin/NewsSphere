@@ -49,9 +49,11 @@ class SavedAdapter : ListAdapter<SavedClass, SavedAdapter.SavedViewHolder> (DIFF
             binding.titleText.text = savedClass.titleText
             binding.descriptionText.text = savedClass.descriptionText ?: ""
             binding.sourceText.text = savedClass.sourceText
-            Glide.with(binding.imagePic)
-                .load(savedClass.urlText)
-                .into(binding.imagePic)
+            binding.publishedAt.text = savedClass.publishedAt
+            binding.sourceView.setImageResource(savedClass.getSourceDrawable())
+            Glide.with(binding.image)
+                .load(savedClass.imagePic)
+                .into(binding.image)
         }
     }
 }

@@ -40,17 +40,48 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/baseline_check"
+                android:src="@drawable/ic_filter"
                 android:visibility="visible" />
 
             <ImageButton
-                android:id="@+id/btnBack"
+                android:id="@+id/btnSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:visibility="visible"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/baseline_search" />
+
+            <EditText
+                android:id="@+id/editSearch"
+                android:layout_width="200dp"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textCursorDrawable="@color/white"
+                android:backgroundTint="@android:color/transparent"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/btnSearchBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
+                android:visibility="gone"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/baseline_back" />
+
+            <ImageButton
+                android:id="@+id/btnSearchThis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:visibility="gone"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/baseline_clear" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -58,7 +89,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="620dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -12,6 +12,8 @@ import com.birdushenin.newssphere.presentation.sources.SourceFragment
 import com.birdushenin.newssphere.presentation.sources.SourceWindowFragment
 import com.birdushenin.newssphere.presentation.headlines.sports.SportsFragment
 import com.birdushenin.newssphere.presentation.headlines.general.GeneralViewModelFactory
+import com.birdushenin.newssphere.presentation.saved.SavedFragment
+import com.birdushenin.newssphere.presentation.saved.SavedWindowFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -24,13 +26,13 @@ interface AppComponent {
     fun inject(fragment: SportsFragment)
     fun inject(fragment: SourceFragment)
     fun inject(fragment: SourceWindowFragment)
+    fun inject(fragment: SavedFragment)
     fun inject(activity: MainActivity)
     fun inject(worker: ClearOldDataWorker)
     fun viewModelsFactory(): GeneralViewModelFactory
 
     @Component.Factory
     interface Factory {
-        // With @BindsInstance, the Context passed in will be available in the graph
         fun create(@BindsInstance context: Context): AppComponent
     }
 

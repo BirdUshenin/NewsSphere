@@ -1,4 +1,4 @@
-package com.birdushenin.newssphere.presentation.headlines
+package com.birdushenin.newssphere.presentation.saved
 
 import android.graphics.Color
 import android.os.Bundle
@@ -14,51 +14,51 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.birdushenin.newssphere.R
 import com.birdushenin.newssphere.data.SavedClass
-import com.birdushenin.newssphere.databinding.FragmentNewsWindowBinding
-import com.birdushenin.newssphere.presentation.saved.SavedViewModel
+import com.birdushenin.newssphere.databinding.FragmentSavedWindowBinding
 import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import kotlinx.coroutines.launch
 
-class NewsWindowFragment : Fragment(), FragmentScreen {
+class SavedWindowFragment : Fragment(), FragmentScreen {
 
-    private val sharedViewModel: NewsViewModel by activityViewModels()
+    private val savedWindowViewModel: SavedWindowViewModel by activityViewModels()
     private val savedViewModel: SavedViewModel by activityViewModels()
 
     override fun createFragment(factory: FragmentFactory): Fragment {
-        return NewsWindowFragment()
+        return SavedWindowFragment()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentNewsWindowBinding.inflate(layoutInflater)
+        val binding = FragmentSavedWindowBinding.inflate(layoutInflater)
 
         val window: Window = requireActivity().window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.statusBarColor = Color.TRANSPARENT
 
-        sharedViewModel.selectedArticle.observe(viewLifecycleOwner) { article ->
+        savedWindowViewModel.selectedArticle.observe(viewLifecycleOwner) { article ->
             article?.let {
-                binding.mainText.title = it.title
-                binding.name.text = it.title
+                binding.mainText.title = it.titleText
+                binding.name.text = it.titleText
                 binding.data.text = it.publishedAt
-                binding.description.text = it.description
-                binding.source.text = it.source.name
+                binding.description.text = it.descriptionText
+                binding.source.text = it.sourceText
 
                 Glide.with(binding.picNews)
-                    .load(it.urlToImage)
+                    .load(it.imagePic)
                     .into(binding.picNews)
 
+
                 val savedClass = SavedClass(
-                    it.title,
-                    it.url,
-                    it.description,
-                    it.source.name,
+                    it.titleText,
+                    it.urlText,
+                    it.descriptionText,
+                    it.sourceText,
                     it.publishedAt,
-                    it.urlToImage
+                    it.urlText
                 )
 
                 lifecycleScope.launch {
@@ -99,7 +99,6 @@ class NewsWindowFragment : Fragment(), FragmentScreen {
                 }
             }
         }
-
         return binding.root
     }
 }
