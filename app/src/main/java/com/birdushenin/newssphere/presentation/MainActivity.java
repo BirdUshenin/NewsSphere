@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.birdushenin.newssphere.MyApplication;
 import com.birdushenin.newssphere.R;
 import com.birdushenin.newssphere.navigation.BottomNavigation;
+import com.birdushenin.newssphere.presentation.headlines.MainFragment;
 import com.github.terrakok.cicerone.NavigatorHolder;
 import com.github.terrakok.cicerone.Router;
 import com.github.terrakok.cicerone.androidx.AppNavigator;

@@ -1,9 +1,6 @@
 package com.birdushenin.newssphere.domain
 
-import androidx.lifecycle.LiveData
-import com.birdushenin.newssphere.data.SavedClass
-import com.birdushenin.newssphere.data.databases.SavedNewsDao
-import com.birdushenin.newssphere.data.databases.SavedNewsEntity
+import com.birdushenin.newssphere.data.databases.daos.SavedNewsDao
 
 class SavedRepository(private val savedDao: SavedNewsDao) {
 
