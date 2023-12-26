@@ -118,8 +118,6 @@ class GeneralFragment : Fragment() {
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
-        // TODO Предусмотреть кнопку для быстрого перехода вверх
-        //        recyclerView.smoothScrollToPosition(0)
         adapter.setOnUserItemClickListener(object : OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
                 sharedViewModel.selectArticle(article)

@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:text="cs"
+                    android:text="Messinho: Manchester City Chelsea tipped to rival Barcelona for Brazilian 'little Messi'"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:text="cs"
+                    android:text="2023-12-24T19:00:49Z"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:text="cs"
+                    android:text="T3n"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -137,9 +137,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="cs jcisaocjia jciosajcaioj jcisajc jcias jicsajcjsaicj jcisajciaoj jcsiaojcisa"
+                    android:text="Bill Gates, Elon Musk oder Jack Ma haben viele Tipps und Weisheiten auf Lager."
                     android:textColor="@color/black"
                     android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:autoLink="web"
+                    android:clickable="true"
+                    android:text="The 16-year-old attacker, affectionately named after the world's greatest player, is already attracting attention from Europe's elite clubs"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:focusable="true" />
 
             </LinearLayout>
         </LinearLayout>

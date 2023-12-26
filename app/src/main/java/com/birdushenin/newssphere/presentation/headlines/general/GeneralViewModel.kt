@@ -60,7 +60,6 @@ class GeneralViewModel @Inject constructor(
         return try {
             val articles =
                 generalUseCase.loadNews(filter, fromDate, toDate, language)
-            Log.d("okmmmm", "response.isSuccessful")
 
             // TODO move map into usecase
             val articleEntities = articles.map { article ->

@@ -10,12 +10,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.data.Article
+import com.birdushenin.newssphere.data.SourceNews
 import com.birdushenin.newssphere.databinding.FragmentBusinessBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
+import com.birdushenin.newssphere.domain.OnSourceItemClickListener
 import com.birdushenin.newssphere.navigation.HeadlinesScreens
 import com.birdushenin.newssphere.presentation.headlines.NewsViewModel
 import com.birdushenin.newssphere.presentation.adapters.NewsAdapter
+import com.birdushenin.newssphere.presentation.adapters.SourceAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,7 +29,7 @@ class BusinessFragment : Fragment() {
 
     private lateinit var binding: FragmentBusinessBinding
 
-    private val adapter = NewsAdapter()
+    private val adapter = SourceAdapter()
     private val sharedViewModel: NewsViewModel by activityViewModels()
     @Inject
     lateinit var retrofit: Retrofit
@@ -46,18 +49,17 @@ class BusinessFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        adapter.setOnUserItemClickListener(object: OnNewsItemClickListener {
-            override fun onNewsItemClicked(article: Article) {
-                sharedViewModel.selectArticle(article)
-                (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.NewsWindowScreen)
+        adapter.setOnUserItemClickListener(object : OnSourceItemClickListener {
+            override fun onNewsItemClicked(sourceNews: SourceNews) {
+//                sourceViewModel.selectSource(sourceNews)
+                (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.SourceWindowFragment)
             }
         })
 
         binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
-
-            loadNews(newsService, q = "Elon")
+            loadNews(newsService, q = "BBC News")
         }
 
         return binding.root
@@ -67,9 +69,9 @@ class BusinessFragment : Fragment() {
         val apiKey = "eae4e313c2d043c183e78149bc172501"
 
         try {
-            val response = newsService.getRelevant(apiKey = apiKey, query = q)
+            val response = newsService.getSources(apiKey = apiKey, query = q)
             if (response.isSuccessful) {
-                val newsList = response.body()?.articles ?: emptyList()
+                val newsList = response.body()?.sources ?: emptyList()
                 withContext(Dispatchers.Main) {
                     adapter.submitList(newsList)
                     binding.progressBar.visibility = View.GONE

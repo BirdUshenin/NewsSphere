@@ -51,6 +51,7 @@ class SavedAdapter : ListAdapter<SavedClass, SavedAdapter.SavedViewHolder> (DIFF
             binding.sourceText.text = savedClass.sourceText
             binding.publishedAt.text = savedClass.publishedAt
             binding.sourceView.setImageResource(savedClass.getSourceDrawable())
+
             Glide.with(binding.image)
                 .load(savedClass.imagePic)
                 .into(binding.image)

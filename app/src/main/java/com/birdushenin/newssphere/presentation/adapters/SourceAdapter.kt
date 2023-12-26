@@ -48,10 +48,14 @@ class SourceAdapter : ListAdapter<SourceNews, SourceAdapter.SourceViewHolder>(DI
 
         fun bind(source: SourceNews) {
             binding.name.text = source.name
+            binding.country.text = source.country
+
+            binding.category.text = source.category
             binding.description.text = source.description ?: ""
-            Glide.with(binding.image)
-                .load(source.urlToImage)
-                .into(binding.image)
+            binding.image.setImageResource(source.getSourceDrawable())
+//            Glide.with(binding.image)
+//                .load(source.urlToImage)
+//                .into(binding.image)
         }
     }
 

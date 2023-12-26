@@ -1,6 +1,7 @@
 package com.birdushenin.newssphere.presentation.sources
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.birdushenin.newssphere.MyApplication
+import com.birdushenin.newssphere.data.databases.daos.SourceDao
 import com.birdushenin.newssphere.databinding.FragmentSourceWindowBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.presentation.adapters.NewsAdapter
@@ -27,6 +29,8 @@ class SourceWindowFragment : Fragment(), FragmentScreen {
 
     @Inject
     lateinit var retrofit: Retrofit
+    @Inject
+    lateinit var sourceNewsDao: SourceDao
 
     override fun createFragment(factory: FragmentFactory): Fragment {
         return SourceWindowFragment()
@@ -62,16 +66,17 @@ class SourceWindowFragment : Fragment(), FragmentScreen {
     }
 
     private suspend fun loadNews(newsService: NewsService, sources: String?) {
-        val apiKey = "eae4e313c2d043c183e78149bc172501"
+        val apiKey = "4897ed61df034fa4b4bb185141dfe043"
 
         try {
             val response = newsService.getSourcesNews(apiKey = apiKey, source = sources)
-            if (response.isSuccessful) {
+
                 val newsList = response.body()?.articles ?: emptyList()
+                if (response.isSuccessful){
                 withContext(Dispatchers.Main) {
                     adapter.submitList(newsList)
                 }
-            }
+            } else { }
         } catch (_: Exception) { }
     }
 }
