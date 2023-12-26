@@ -34,6 +34,8 @@ interface NewsService {
         @Query("q") query: String? = null,
         @Query("apiKey") apiKey: String,
         @Query("id") id: String? = null,
+        @Query("country") country: String? = null,
+        @Query("category") category: String? = null,
         @Query("source") source: String? = null
     ): Response<SourceResponse>
 

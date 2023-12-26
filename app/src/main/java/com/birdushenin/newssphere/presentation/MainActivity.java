@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         MyApplication.appComponent.inject(this);
 
-        // TODO После реализации сплешскрина убрать
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, main, "1").commit();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -80,17 +79,5 @@ public class MainActivity extends AppCompatActivity {
         navigatorHolder.setNavigator(navigator);
         ((MyApplication) getApplication()).getNavigatorHolder().removeNavigator();
         super.onPause();
-    }
-
-    private void navigateToNewsWindowScreen() {
-        ((MyApplication) getApplication()).getRouter().navigateTo(BottomNavigation.MainFragment());
-    }
-
-    private void navigateToFiltersFragment() {
-        ((MyApplication) getApplication()).getRouter().navigateTo(BottomNavigation.SavedFragment());
-    }
-
-    private void navigateToSourceWindowFragment() {
-        ((MyApplication) getApplication()).getRouter().navigateTo(BottomNavigation.SourceFragment());
     }
 }

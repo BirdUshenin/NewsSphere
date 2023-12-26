@@ -10,7 +10,7 @@
         android:id="@+id/Saved"
         android:title="@string/saved"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_saved"/>
+        android:icon="@drawable/baseline_save"/>
     <item
         android:id="@+id/Sources"
         android:title="@string/sources"

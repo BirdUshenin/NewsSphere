@@ -75,7 +75,6 @@ class SavedFragment : Fragment(), FragmentScreen {
             if (!isSearchMode) {
                 showSearchFragment()
                 binding.btnSearch.visibility = View.GONE
-                binding.btnCheck.visibility = View.GONE
                 editText.visibility = View.VISIBLE
                 binding.toolbarTitle.visibility = View.GONE
                 binding.btnSearchThis.visibility = View.VISIBLE
@@ -84,7 +83,6 @@ class SavedFragment : Fragment(), FragmentScreen {
             } else {
                 hideSearchFragment()
                 binding.btnSearch.visibility = View.VISIBLE
-                binding.btnCheck.visibility = View.VISIBLE
                 editText.visibility = View.GONE
                 binding.toolbarTitle.visibility = View.VISIBLE
                 binding.btnSearchThis.visibility = View.GONE

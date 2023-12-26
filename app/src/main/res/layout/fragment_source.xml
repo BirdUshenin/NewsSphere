@@ -7,10 +7,150 @@
     android:background="@color/white"
     tools:context=".presentation.sources.SourceFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarSavedLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Sources"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/btnCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_filter"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/btnSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:visibility="visible"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/baseline_search" />
+
+            <EditText
+                android:id="@+id/editSearch"
+                android:layout_width="200dp"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textCursorDrawable="@color/white"
+                android:backgroundTint="@android:color/transparent"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/btnSearchBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:visibility="gone"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/baseline_back" />
+
+            <ImageButton
+                android:id="@+id/btnSearchThis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:visibility="gone"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/baseline_clear" />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="55dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/progressBar"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/unscreen"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recyclerView" />
+
+    <ImageView
+        android:id="@+id/notInternetPic"
+        android:layout_width="280dp"
+        android:layout_height="200dp"
+        android:src="@drawable/not_internet"
+        android:layout_marginBottom="40dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarSavedLayout" />
+
+    <TextView
+        android:id="@+id/notInternet"
+        android:layout_width="164dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:visibility="gone"
+        android:text="No internet connection"
+        app:layout_constraintEnd_toEndOf="@+id/notInternetPic"
+        app:layout_constraintStart_toStartOf="@+id/notInternetPic"
+        app:layout_constraintTop_toBottomOf="@+id/notInternetPic" />
+
+    <ImageView
+        android:id="@+id/refreshPic"
+        android:layout_width="42dp"
+        android:layout_height="48dp"
+        android:src="@drawable/estart_alt"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/refresh"
+        app:layout_constraintEnd_toEndOf="@+id/notInternetPic"
+        app:layout_constraintStart_toStartOf="@+id/notInternetPic" />
+
+    <TextView
+        android:id="@+id/refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginBottom="50dp"
+        android:textSize="14dp"
+        android:visibility="gone"
+        android:text="Refresh"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/refreshPic"
+        app:layout_constraintStart_toStartOf="@+id/refreshPic" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -183,7 +183,7 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View {
     }
 
     override fun hideSearchFragment() {
-        parentFragmentManager.popBackStack()
+//        parentFragmentManager.popBackStack()
         isSearchMode = false
     }
 
