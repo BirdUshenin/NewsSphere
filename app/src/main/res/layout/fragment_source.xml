@@ -50,6 +50,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
+                android:focusable="true"
                 android:src="@drawable/baseline_search"
                 android:visibility="visible" />
 
@@ -59,6 +60,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/start_to_search"
                 android:textColor="@color/white"
                 android:textCursorDrawable="@color/white"
                 android:visibility="gone" />

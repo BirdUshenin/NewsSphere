@@ -3,6 +3,8 @@ package com.birdushenin.newssphere.presentation.headlines
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +57,6 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View {
     ): View? {
         presenter = MainPresenter(this)
         presenter.onViewCreated()
-
 
         val window: Window = requireActivity().window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -125,8 +126,16 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View {
         }
         btnSearch.setOnClickListener {
             if (!isSearchMode) {
-                showKeyboard(editText)
+                showKeyboardAndFocus(editText)
+                editText.requestFocus()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    editText.requestFocus()
+                    val imm =
+                        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+                }, 200)
                 showSearchFragment()
+                editText.isFocusableInTouchMode = true
                 btnFilter.visibility = View.GONE
                 btnSearchThis.visibility = View.VISIBLE
                 editText.visibility = View.VISIBLE
@@ -169,6 +178,13 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View {
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         }, 100)
+    }
+
+    private fun showKeyboardAndFocus(editText: EditText) {
+        editText.requestFocus()
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun hideKeyboard() {

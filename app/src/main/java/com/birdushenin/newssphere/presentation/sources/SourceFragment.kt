@@ -1,10 +1,15 @@
 package com.birdushenin.newssphere.presentation.sources
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
@@ -19,7 +24,9 @@ import com.birdushenin.newssphere.databinding.FragmentSourceBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnSourceItemClickListener
 import com.birdushenin.newssphere.navigation.HeadlinesScreens
+import com.birdushenin.newssphere.navigation.SavedNavigation
 import com.birdushenin.newssphere.presentation.adapters.SourceAdapter
+import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,6 +47,9 @@ class SourceFragment : Fragment(), FragmentScreen {
 
     @Inject
     lateinit var sourceNewsDao: SourceDao
+
+    @Inject
+    lateinit var router: Router
 
     override fun createFragment(factory: FragmentFactory): Fragment {
         return SourceFragment()
@@ -63,16 +73,38 @@ class SourceFragment : Fragment(), FragmentScreen {
 
         binding.btnSearch.setOnClickListener {
             if (!isSearchMode) {
+                showKeyboardAndFocus(editText)
+                editText.requestFocus()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    editText.requestFocus()
+                    val imm =
+                        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+                }, 200)
                 showSearchFragment()
+                editText.isFocusableInTouchMode = true
                 binding.btnSearch.visibility = View.GONE
                 binding.toolbarTitle.visibility = View.GONE
                 editText.visibility = View.VISIBLE
+                binding.btnSearchThis.visibility = View.VISIBLE
+                binding.btnSearchBack.visibility = View.VISIBLE
             } else {
                 hideSearchFragment()
                 binding.btnSearch.visibility = View.VISIBLE
                 binding.toolbarTitle.visibility = View.VISIBLE
                 editText.visibility = View.GONE
+                binding.btnSearchThis.visibility = View.GONE
+                binding.btnSearchBack.visibility = View.GONE
             }
+        }
+
+        binding.btnSearchThis.setOnClickListener {
+            editText.text.clear()
+        }
+
+        binding.btnSearchBack.setOnClickListener {
+            router.navigateTo(SavedNavigation.SourceFragment())
+            hideKeyboard()
         }
 
         editText.setOnKeyListener { _, keyCode, event ->
@@ -107,6 +139,29 @@ class SourceFragment : Fragment(), FragmentScreen {
         }
 
         return binding.root
+    }
+
+    private fun showKeyboard(editText: EditText) {
+        editText.isFocusableInTouchMode = true
+        editText.requestFocus()
+        editText.setSelection(0)
+        editText.postDelayed({
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        }, 100)
+    }
+
+    private fun showKeyboardAndFocus(editText: EditText) {
+        editText.requestFocus()
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun hideKeyboard() {
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun showSearchFragment() {

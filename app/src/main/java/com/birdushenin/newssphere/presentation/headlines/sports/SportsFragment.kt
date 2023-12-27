@@ -60,7 +60,6 @@ class SportsFragment : Fragment() {
         binding = FragmentSportsBinding.inflate(layoutInflater)
         MyApplication.appComponent.inject(this)
 
-        val newsService = retrofit.create(SportNews::class.java)
         val selectedFilter = filterViewModel.selectedFilter.value?.selectedPopular
         val selectedCalendarStart = filterViewModel.selectedFilter.value?.selectedCalendarStart
         val selectedCalendarEnd = filterViewModel.selectedFilter.value?.selectedCalendarEnd
@@ -76,7 +75,6 @@ class SportsFragment : Fragment() {
                 (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.NewsWindowScreen)
             }
         })
-
 
         swipeRefreshLayout = binding.swipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {

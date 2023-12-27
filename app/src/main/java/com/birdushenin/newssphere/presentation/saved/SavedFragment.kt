@@ -1,12 +1,17 @@
 package com.birdushenin.newssphere.presentation.saved
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
@@ -73,7 +78,16 @@ class SavedFragment : Fragment(), FragmentScreen {
 
         binding.btnSearch.setOnClickListener {
             if (!isSearchMode) {
+                showKeyboardAndFocus(editText)
+                editText.requestFocus()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    editText.requestFocus()
+                    val imm =
+                        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+                }, 200)
                 showSearchFragment()
+                editText.isFocusableInTouchMode = true
                 binding.btnSearch.visibility = View.GONE
                 editText.visibility = View.VISIBLE
                 binding.toolbarTitle.visibility = View.GONE
@@ -95,6 +109,7 @@ class SavedFragment : Fragment(), FragmentScreen {
         }
 
         binding.btnSearchBack.setOnClickListener {
+            hideKeyboard()
             router.navigateTo(SavedNavigation.SavedFragment())
         }
 
@@ -129,6 +144,29 @@ class SavedFragment : Fragment(), FragmentScreen {
         }
 
         return binding.root
+    }
+
+    private fun showKeyboardAndFocus(editText: EditText) {
+        editText.requestFocus()
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun showKeyboard(editText: EditText) {
+        editText.isFocusableInTouchMode = true
+        editText.requestFocus()
+        editText.setSelection(0)
+        editText.postDelayed({
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        }, 100)
+    }
+
+    private fun hideKeyboard() {
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun showSearchFragment() {
