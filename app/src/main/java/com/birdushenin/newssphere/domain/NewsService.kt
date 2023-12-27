@@ -29,6 +29,20 @@ interface NewsService {
         @Query("language") language: String? = null
     ): Response<NewsResponse>
 
+
+    @Headers("Content-Type: application/json")
+    @GET("top-headlines")
+    suspend fun getSport(
+//        @Query("q") query: String? = null,
+        @Query("apiKey") apiKey: String,
+        @Query("from") from: String? = null,
+        @Query("to") to: String? = null,
+        @Query("sortBy") sortBy: String? = null,
+        @Query("language") language: String? = null,
+        @Query("category") category: String,
+        @Query("country") country: String
+    ): Response<NewsResponse>
+
     @GET("/v2/sources")
     suspend fun getSources(
         @Query("q") query: String? = null,
@@ -45,6 +59,10 @@ interface NewsService {
         @Query("q") query: String? = null,
         @Query("apiKey") apiKey: String
     ): Response<NewsResponse>
+
+
+
+
 
     @Headers("Content-Type: application/json")
     @GET("top-headlines")
