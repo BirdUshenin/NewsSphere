@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp">
 
@@ -34,6 +35,7 @@
             android:layout_marginStart="10dp"
             android:text="The DOJ says it disrupted the Blackcat ransomware group"
             android:textSize="15sp"
+            android:textColor="@color/nice_grey"
             app:layout_constraintBottom_toBottomOf="@+id/image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image" />
@@ -52,6 +54,7 @@
             android:layout_width="178dp"
             android:layout_height="24dp"
             android:text="ABC News"
+            android:textColor="@color/nice_grey"
             android:textSize="14sp"
             android:layout_marginStart="5dp"
             app:layout_constraintBottom_toTopOf="@+id/title"

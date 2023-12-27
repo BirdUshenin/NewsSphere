@@ -1,4 +1,4 @@
-package com.birdushenin.newssphere.presentation.headlines.general
+package com.birdushenin.newssphere.presentation.headlines.business
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -10,18 +10,16 @@ import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.data.Source
 import com.birdushenin.newssphere.data.databases.daos.ArticleDao
 import com.birdushenin.newssphere.data.databases.entities.ArticleEntity
-import com.birdushenin.newssphere.domain.NewsService
-import com.birdushenin.newssphere.domain.usecases.GeneralUseCase
+import com.birdushenin.newssphere.domain.usecases.BusinessUseCase
+import com.birdushenin.newssphere.presentation.headlines.general.GeneralViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-class GeneralViewModel @Inject constructor(
+class BusinessViewModel@Inject constructor(
     private val articleDao: ArticleDao,
-    private val newsService: NewsService,
-    private val generalUseCase: GeneralUseCase,
-) : ViewModel() {
-
+    private val businessUseCase: BusinessUseCase
+) : ViewModel(){
     val news: LiveData<List<Article>>
         get() = _news
     private val _news = MutableLiveData<List<Article>>()
@@ -38,7 +36,6 @@ class GeneralViewModel @Inject constructor(
         selectedCalendarEnd: String?,
         selectedLang: String?
     ) {
-        Log.d("okmmmm", "updateNews")
         viewModelScope.launch {
             _news.value = loadNews(
                 selectedFilter,
@@ -58,9 +55,8 @@ class GeneralViewModel @Inject constructor(
 
         return try {
             val articles =
-                generalUseCase.loadNews(filter, fromDate, toDate, language)
+                businessUseCase.loadNews(filter, fromDate, toDate, language)
 
-            // TODO move map into usecase
             val articleEntities = articles.map { article ->
                 ArticleEntity(
                     sourceId = article.source.id,
@@ -74,18 +70,15 @@ class GeneralViewModel @Inject constructor(
                     content = article.content
                 )
             }
-
-            // TODO call dao from repository. add usecase here
             articleDao.deleteAllArticles()
-
             articleDao.insertArticles(articleEntities)
             articles
+
         } catch (_: Exception) {
             val offlineArticlesList = getOfflineData()
             offlineArticlesList
         }
     }
-
     private suspend fun getOfflineData(): List<Article> {
         val offlineArticles = articleDao.getAllArticles()
 
@@ -103,15 +96,14 @@ class GeneralViewModel @Inject constructor(
         }
         return offlineArticlesList
     }
-
 }
 
-class GeneralViewModelFactory @Inject constructor(
-    myViewModelProvider: Provider<GeneralViewModel>
+class BusinessViewModelFactory @Inject constructor(
+    myViewModelProvider: Provider<BusinessViewModel>
 ) : ViewModelProvider.Factory {
 
     private val providers = mapOf<Class<*>, Provider<out ViewModel>>(
-        GeneralViewModel::class.java to myViewModelProvider
+        BusinessViewModel::class.java to myViewModelProvider
     )
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

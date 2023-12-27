@@ -49,8 +49,6 @@ class NewsWindowFragment : Fragment(), FragmentScreen {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.statusBarColor = Color.TRANSPARENT
 
-
-
         sharedViewModel.selectedArticle.observe(viewLifecycleOwner) { article ->
             article?.let {
                 binding.mainText.title = it.title

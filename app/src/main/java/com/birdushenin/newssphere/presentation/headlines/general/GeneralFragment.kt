@@ -128,7 +128,6 @@ class GeneralFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
 
         generalViewModel.news.observe(viewLifecycleOwner) {
-            Log.d("okmmmm", "generalViewModel.news: ${it.size}")
             adapter.submitList(it)
             binding.progressBar.visibility = View.GONE
         }
@@ -145,7 +144,8 @@ class GeneralFragment : Fragment() {
 
     private suspend fun searchArticles(query: String) {
         val context = requireActivity().applicationContext
-        val apiKey = "6aae4c71707e4bf4b0bfbe63df5edd15"
+        val apiKey = "4897ed61df034fa4b4bb185141dfe043"
+        // 4897ed61df034fa4b4bb185141dfe043 6aae4c71707e4bf4b0bfbe63df5edd15
         var searchResults: List<Article>
 
         if (isInternetAvailable(context)) {

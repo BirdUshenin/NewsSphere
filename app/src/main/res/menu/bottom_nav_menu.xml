@@ -5,15 +5,15 @@
         android:id="@+id/Headlines"
         android:title="@string/headlines"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_headlines"/>
+        android:icon="@drawable/headlines"/>
     <item
         android:id="@+id/Saved"
         android:title="@string/saved"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/baseline_save"/>
+        android:icon="@drawable/saved"/>
     <item
         android:id="@+id/Sources"
         android:title="@string/sources"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_rss"/>
+        android:icon="@drawable/sources"/>
 </menu>
