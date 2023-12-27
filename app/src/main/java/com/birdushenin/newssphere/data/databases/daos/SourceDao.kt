@@ -8,8 +8,6 @@ import com.birdushenin.newssphere.data.databases.entities.SourceEntity
 
 @Dao
 interface SourceDao {
-    @Query("SELECT * FROM sources")
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertArticles(articles: List<SourceEntity>)
 
