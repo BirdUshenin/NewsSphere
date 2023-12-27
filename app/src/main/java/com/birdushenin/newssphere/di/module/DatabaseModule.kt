@@ -32,7 +32,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideSourceDao(newsDatabase: NewsDatabase): SourceDao{
+    fun provideSourceDao(newsDatabase: NewsDatabase): SourceDao {
         return newsDatabase.sourceNewsDao()
     }
 

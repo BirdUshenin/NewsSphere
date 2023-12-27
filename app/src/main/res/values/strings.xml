@@ -14,5 +14,29 @@
     <string name="relevant">Relevant</string>
     <string name="new_">New</string>
     <string name="popular">Popular</string>
+    <string name="filters">Filters</string>
+    <string name="news_app">News APP</string>
+    <string name="t3n">T3n</string>
+    <string name="_2023_12_24t19_00_49z">2023-12-24T19:00:49Z</string>
+    <string name="messinho_manchester_city_chelsea_tipped_to_rival_barcelona_for_brazilian_little_messi">Messinho: Manchester City Chelsea tipped to rival Barcelona for Brazilian \'little Messi\'</string>
+    <string name="bill_gates_elon_musk_oder_jack_ma_haben_viele_tipps_und_weisheiten_auf_lager">Bill Gates, Elon Musk oder Jack Ma haben viele Tipps und Weisheiten auf Lager.</string>
+    <string name="the_16_year_old_attacker_affectionately_named_after_the_world_s_greatest_player_is_already_attracting_attention_from_europe_s_elite_clubs">The 16-year-old attacker, affectionately named after the world\'s greatest player, is already attracting attention from Europe\'s elite clubs</string>
+    <string name="saved_sa">Saved</string>
+    <string name="messinho_manchester_city_chelsea_tipped_to_rival_barcelona_brazilian_little_messi">Messinho: Manchester City Chelsea tipped to rival Barcelona for Brazilian \'little Messi\'</string>
+    <string name="bill_gates_elon_musk">Bill Gates, Elon Musk oder Jack Ma haben viele Tipps und Weisheiten auf Lager.</string>
+    <string name="the_16_year_old_attacker">The 16-year-old attacker, affectionately named after the world\'s greatest player, is already attracting attention from Europe\'s elite clubs</string>
+    <string name="sources_">Sources</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="refresh">Refresh</string>
+    <string name="abc_news">ABC News</string>
+    <string name="the_doj_says_it_disrupted_the_blackcat_ransomware_group">The DOJ says it disrupted the Blackcat ransomware group</string>
+    <string name="state_poll_results_key_wins_boost_indian_pm_nodi_s">State poll results: Key wins boost Indian PM Nodi\'s</string>
+    <string name="bbc_news">BBC News</string>
+    <string name="us">us</string>
+    <string name="general">general</string>
+    <string name="popular_">Popular</string>
+    <string name="new_this">New</string>
+    <string name="relevant_">Relevant</string>
+    <string name="cnn">CNN</string>
 
 </resources>

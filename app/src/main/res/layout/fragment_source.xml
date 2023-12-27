@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Sources"
+                android:text="@string/sources_"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -49,18 +49,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
-                android:visibility="visible"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/baseline_search" />
+                android:src="@drawable/baseline_search"
+                android:visibility="visible" />
 
             <EditText
                 android:id="@+id/editSearch"
                 android:layout_width="200dp"
-                android:textColor="@color/white"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textCursorDrawable="@color/white"
                 android:backgroundTint="@android:color/transparent"
+                android:textColor="@color/white"
+                android:textCursorDrawable="@color/white"
                 android:visibility="gone" />
 
             <ImageButton
@@ -68,20 +68,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:visibility="gone"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/baseline_back" />
+                android:src="@drawable/baseline_back"
+                android:visibility="gone" />
 
             <ImageButton
                 android:id="@+id/btnSearchThis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:visibility="gone"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/baseline_clear" />
+                android:src="@drawable/baseline_clear"
+                android:visibility="gone" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -109,8 +109,8 @@
         android:id="@+id/notInternetPic"
         android:layout_width="280dp"
         android:layout_height="200dp"
-        android:src="@drawable/not_internet"
         android:layout_marginBottom="40dp"
+        android:src="@drawable/not_internet"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,11 +121,11 @@
         android:id="@+id/notInternet"
         android:layout_width="164dp"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
         android:gravity="center"
-        android:textSize="15dp"
+        android:text="@string/no_internet_connection"
+        android:textSize="15sp"
+        android:textStyle="bold"
         android:visibility="gone"
-        android:text="No internet connection"
         app:layout_constraintEnd_toEndOf="@+id/notInternetPic"
         app:layout_constraintStart_toStartOf="@+id/notInternetPic"
         app:layout_constraintTop_toBottomOf="@+id/notInternetPic" />
@@ -145,9 +145,9 @@
         android:layout_width="wrap_content"
         android:layout_height="16dp"
         android:layout_marginBottom="50dp"
-        android:textSize="14dp"
+        android:text="@string/refresh"
+        android:textSize="14sp"
         android:visibility="gone"
-        android:text="Refresh"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/refreshPic"
         app:layout_constraintStart_toStartOf="@+id/refreshPic" />

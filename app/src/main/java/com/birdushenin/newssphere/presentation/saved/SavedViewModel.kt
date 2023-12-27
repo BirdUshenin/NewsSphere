@@ -35,7 +35,8 @@ class SavedViewModel(application: Application) : AndroidViewModel(application) {
                     sourceText = savedClass.sourceText,
                     imagePic = savedClass.imagePic,
                     publishedAt = savedClass.publishedAt,
-                    timestamp = currentTimeMillis
+                    timestamp = currentTimeMillis,
+                    content = savedClass.content
                 )
                 savedArticleDao.insertSavedNews(savedArticleEntity)
                 scheduleClearOldDataWork()

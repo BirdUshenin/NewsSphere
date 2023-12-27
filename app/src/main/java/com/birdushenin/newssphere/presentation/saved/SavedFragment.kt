@@ -119,7 +119,8 @@ class SavedFragment : Fragment(), FragmentScreen {
                             descriptionText = savedArticle.descriptionText,
                             sourceText = savedArticle.sourceText,
                             publishedAt = savedArticle.publishedAt,
-                            imagePic = savedArticle.imagePic
+                            imagePic = savedArticle.imagePic,
+                            content = savedArticle.content
                         )
                     }
                     adapter.submitList(savedClassList)
@@ -149,7 +150,8 @@ class SavedFragment : Fragment(), FragmentScreen {
                 descriptionText = articleEntity.descriptionText,
                 urlText = articleEntity.urlText,
                 imagePic = articleEntity.imagePic,
-                publishedAt = articleEntity.publishedAt
+                publishedAt = articleEntity.publishedAt,
+                content = articleEntity.content
             )
         }
         withContext(Dispatchers.Main) {

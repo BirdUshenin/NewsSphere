@@ -5,7 +5,7 @@ import com.birdushenin.newssphere.di.AppComponent
 import com.birdushenin.newssphere.di.DaggerAppComponent
 import com.github.terrakok.cicerone.Cicerone
 
-class MyApplication: Application() {
+class MyApplication : Application() {
 
     private val cicerone = Cicerone.create()
     val router get() = cicerone.router

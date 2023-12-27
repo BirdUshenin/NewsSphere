@@ -148,7 +148,6 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View {
         return view
     }
 
-
     override fun updateImageBasedOnFilterCount(count: Int) {
         val btnFilter: ImageView = requireView().findViewById(R.id.btnFilter)
         val imageToDisplay = when (count) {
@@ -183,7 +182,6 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View {
     }
 
     override fun hideSearchFragment() {
-//        parentFragmentManager.popBackStack()
         isSearchMode = false
     }
 

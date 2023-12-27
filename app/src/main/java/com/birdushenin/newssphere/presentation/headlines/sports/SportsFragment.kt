@@ -3,10 +3,10 @@ package com.birdushenin.newssphere.presentation.headlines.sports
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -20,10 +20,9 @@ import com.birdushenin.newssphere.data.databases.entities.ArticleEntity
 import com.birdushenin.newssphere.databinding.FragmentSportsBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
-import com.birdushenin.newssphere.domain.SportNews
 import com.birdushenin.newssphere.navigation.HeadlinesScreens
-import com.birdushenin.newssphere.presentation.headlines.NewsViewModel
 import com.birdushenin.newssphere.presentation.adapters.NewsAdapter
+import com.birdushenin.newssphere.presentation.headlines.NewsViewModel
 import com.birdushenin.newssphere.presentation.headlines.SearchViewModel
 import com.birdushenin.newssphere.presentation.headlines.UpdateViewModel
 import com.birdushenin.newssphere.presentation.headlines.filters.FilterViewModel
@@ -50,6 +49,7 @@ class SportsFragment : Fragment() {
 
     @Inject
     lateinit var retrofit: Retrofit
+
     @Inject
     lateinit var articleDao: ArticleDao
 
@@ -70,7 +70,7 @@ class SportsFragment : Fragment() {
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
-        adapter.setOnUserItemClickListener(object: OnNewsItemClickListener {
+        adapter.setOnUserItemClickListener(object : OnNewsItemClickListener {
             override fun onNewsItemClicked(article: Article) {
                 sharedViewModel.selectArticle(article)
                 (requireActivity().application as MyApplication).router.navigateTo(HeadlinesScreens.NewsWindowScreen)
@@ -131,11 +131,6 @@ class SportsFragment : Fragment() {
         }
 
         binding.progressBar.visibility = View.VISIBLE
-
-//        lifecycleScope.launch {
-//            binding.progressBar.visibility = View.GONE
-//            loadNews(newsService)
-//        }
 
         return binding.root
     }

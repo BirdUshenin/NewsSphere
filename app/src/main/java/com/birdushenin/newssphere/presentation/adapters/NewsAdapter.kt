@@ -1,22 +1,14 @@
 package com.birdushenin.newssphere.presentation.adapters
 
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.TextPaint
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import com.birdushenin.newssphere.data.Article
-import com.bumptech.glide.Glide
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.birdushenin.newssphere.R
+import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.databinding.ItemArticleBinding
 import com.birdushenin.newssphere.domain.OnNewsItemClickListener
+import com.bumptech.glide.Glide
 
 class NewsAdapter : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DIFF_CALLBACK) {
 
@@ -52,7 +44,8 @@ class NewsAdapter : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DIFF_CAL
         clickListener = listener
     }
 
-    inner class ArticleViewHolder(private val binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ArticleViewHolder(private val binding: ItemArticleBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(article: Article) {
             binding.title.text = article.title
@@ -68,3 +61,4 @@ class NewsAdapter : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DIFF_CAL
         }
     }
 }
+

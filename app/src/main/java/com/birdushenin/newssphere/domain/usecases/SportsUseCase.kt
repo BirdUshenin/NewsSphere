@@ -1,7 +1,6 @@
 package com.birdushenin.newssphere.domain.usecases
 
 import com.birdushenin.newssphere.data.Article
-import com.birdushenin.newssphere.data.repositories.NetworkRepository
 import com.birdushenin.newssphere.data.repositories.SportsRepositories
 import javax.inject.Inject
 

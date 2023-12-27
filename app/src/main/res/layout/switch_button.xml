@@ -6,6 +6,7 @@
     android:background="@drawable/switch_background"
     android:gravity="center"
     android:padding="7dp">
+
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
             android:button="@android:color/transparent"
             android:checked="true"
             android:gravity="center"
-            android:text="Popular" />
+            android:text="@string/popular_" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/rbCenter"
@@ -33,7 +34,7 @@
             android:button="@android:color/transparent"
             android:checked="false"
             android:gravity="center"
-            android:text="New" />
+            android:text="@string/new_this" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/rbRight"
@@ -44,7 +45,7 @@
             android:button="@android:color/transparent"
             android:checked="false"
             android:gravity="center"
-            android:text="Relevant" />
+            android:text="@string/relevant_" />
     </RadioGroup>
 
 </LinearLayout>

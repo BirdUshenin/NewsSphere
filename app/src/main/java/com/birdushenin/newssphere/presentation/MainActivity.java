@@ -42,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.Headlines:
-                        navigateToTestScreen();
+                        navigateToMainFragment();
                         return true;
                     case R.id.Saved:
-                        navigateToTestScreen2();
+                        navigateToSavedFragment();
                         return true;
                     case R.id.Sources:
-                        navigateToTestScreen3();
+                        navigateToSourceFragment();
                         return true;
                     default:
                         return false;
@@ -57,13 +57,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void navigateToTestScreen() {
+    private void navigateToMainFragment() {
         router.navigateTo(BottomNavigation.MainFragment());
     }
-    private void navigateToTestScreen2() {
+
+    private void navigateToSavedFragment() {
         router.navigateTo(BottomNavigation.SavedFragment());
     }
-    private void navigateToTestScreen3() {
+
+    private void navigateToSourceFragment() {
         router.navigateTo(BottomNavigation.SourceFragment());
     }
 

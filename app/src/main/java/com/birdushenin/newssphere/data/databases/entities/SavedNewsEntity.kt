@@ -18,6 +18,7 @@ data class SavedNewsEntity(
     val sourceText: String?,
     val publishedAt: String?,
     val imagePic: String?,
+    val content: String?,
 
     @ColumnInfo(name = "timestamp")
     val timestamp: Long

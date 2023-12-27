@@ -9,16 +9,6 @@ import retrofit2.http.Query
 
 interface NewsService {
     @Headers("Content-Type: application/json")
-    @GET("top-headlines")
-    suspend fun getTopHeadlines(
-        @Query("country") country: String = "us",
-        @Query("category") category: String = "general",
-        @Query("sortBy") sortBy: String = "popular",
-        @Query("sources") source: String? = null,
-        @Query("apiKey") apiKey: String
-    ): Response<NewsResponse>
-
-    @Headers("Content-Type: application/json")
     @GET("everything")
     suspend fun getEverything(
         @Query("q") query: String,
@@ -29,11 +19,9 @@ interface NewsService {
         @Query("language") language: String? = null
     ): Response<NewsResponse>
 
-
     @Headers("Content-Type: application/json")
     @GET("top-headlines")
     suspend fun getSport(
-//        @Query("q") query: String? = null,
         @Query("apiKey") apiKey: String,
         @Query("from") from: String? = null,
         @Query("to") to: String? = null,
@@ -52,17 +40,6 @@ interface NewsService {
         @Query("category") category: String? = null,
         @Query("source") source: String? = null
     ): Response<SourceResponse>
-
-    @Headers("Content-Type: application/json")
-    @GET("top-headlines")
-    suspend fun getRelevant(
-        @Query("q") query: String? = null,
-        @Query("apiKey") apiKey: String
-    ): Response<NewsResponse>
-
-
-
-
 
     @Headers("Content-Type: application/json")
     @GET("top-headlines")

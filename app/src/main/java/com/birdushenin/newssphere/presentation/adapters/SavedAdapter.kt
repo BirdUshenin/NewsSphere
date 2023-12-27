@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 
 private var clickListener: OnSavedItemClickListener? = null
 
-class SavedAdapter : ListAdapter<SavedClass, SavedAdapter.SavedViewHolder> (DIFF_CALLBACK) {
+class SavedAdapter : ListAdapter<SavedClass, SavedAdapter.SavedViewHolder>(DIFF_CALLBACK) {
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SavedClass>() {
             override fun areItemsTheSame(oldItem: SavedClass, newItem: SavedClass): Boolean {
@@ -25,7 +25,10 @@ class SavedAdapter : ListAdapter<SavedClass, SavedAdapter.SavedViewHolder> (DIFF
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedAdapter.SavedViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): SavedAdapter.SavedViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemSavedBinding.inflate(inflater, parent, false)
         return SavedViewHolder(binding)
@@ -43,7 +46,8 @@ class SavedAdapter : ListAdapter<SavedClass, SavedAdapter.SavedViewHolder> (DIFF
         clickListener = listener
     }
 
-    inner class SavedViewHolder(private val binding: ItemSavedBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class SavedViewHolder(private val binding: ItemSavedBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(savedClass: SavedClass) {
             binding.titleText.text = savedClass.titleText

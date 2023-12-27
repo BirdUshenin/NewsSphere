@@ -8,7 +8,8 @@ data class SavedClass(
     val descriptionText: String?,
     val sourceText: String?,
     val publishedAt: String?,
-    val imagePic: String?
+    val imagePic: String?,
+    val content: String?
 ) {
     fun getSourceDrawable(): Int {
         return when (sourceText) {

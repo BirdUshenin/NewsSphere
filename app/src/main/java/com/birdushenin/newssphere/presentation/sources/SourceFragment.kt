@@ -12,12 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.birdushenin.newssphere.MyApplication
-import com.birdushenin.newssphere.data.Article
-import com.birdushenin.newssphere.data.SavedClass
 import com.birdushenin.newssphere.data.SourceNews
-import com.birdushenin.newssphere.data.databases.NewsDatabase
 import com.birdushenin.newssphere.data.databases.daos.SourceDao
-import com.birdushenin.newssphere.data.databases.entities.ArticleEntity
 import com.birdushenin.newssphere.data.databases.entities.SourceEntity
 import com.birdushenin.newssphere.databinding.FragmentSourceBinding
 import com.birdushenin.newssphere.domain.NewsService
@@ -29,7 +25,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
-import retrofit2.http.Query
 import javax.inject.Inject
 
 class SourceFragment : Fragment(), FragmentScreen {

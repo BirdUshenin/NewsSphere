@@ -9,7 +9,8 @@ import javax.inject.Singleton
 
 @Module
 class RetrofitModule {
-    @Singleton @Provides
+    @Singleton
+    @Provides
     fun provideRetrofit(): Retrofit {
 
         return Retrofit.Builder()

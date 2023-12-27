@@ -4,9 +4,9 @@ import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.domain.NewsService
 import javax.inject.Inject
 
-class SportsRepositories  @Inject constructor(
+class SportsRepositories @Inject constructor(
     private val newsService: NewsService
-)  {
+) {
     suspend fun loadNews(
         filter: String,
         fromDate: String?,
@@ -18,7 +18,8 @@ class SportsRepositories  @Inject constructor(
         val apiKey = "eae4e313c2d043c183e78149bc172501"
         // 6aae4c71707e4bf4b0bfbe63df5edd15 eae4e313c2d043c183e78149bc172501
 
-        val response = newsService.getSport(apiKey, fromDate, toDate, filter, language, category, country)
+        val response =
+            newsService.getSport(apiKey, fromDate, toDate, filter, language, category, country)
         return if (response.isSuccessful) {
             return response.body()?.articles ?: emptyList()
         } else {

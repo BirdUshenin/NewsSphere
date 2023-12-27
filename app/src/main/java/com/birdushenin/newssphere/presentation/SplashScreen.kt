@@ -1,12 +1,9 @@
 package com.birdushenin.newssphere.presentation
 
 import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.content.Intent
-import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.birdushenin.newssphere.R
 import kotlinx.coroutines.CoroutineScope

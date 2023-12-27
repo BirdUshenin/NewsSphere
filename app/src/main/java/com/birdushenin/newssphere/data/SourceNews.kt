@@ -10,7 +10,7 @@ data class SourceNews(
     val category: String?,
     val url: String?,
     val urlToImage: String?,
-){
+) {
     fun getSourceDrawable(): Int {
         return when (id?.lowercase()) {
             "bbc-news" -> R.drawable.bbcnews
