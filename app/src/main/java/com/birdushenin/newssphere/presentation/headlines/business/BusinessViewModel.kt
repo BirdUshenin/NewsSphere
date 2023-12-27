@@ -1,6 +1,5 @@
 package com.birdushenin.newssphere.presentation.headlines.business
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,15 +10,14 @@ import com.birdushenin.newssphere.data.Source
 import com.birdushenin.newssphere.data.databases.daos.ArticleDao
 import com.birdushenin.newssphere.data.databases.entities.ArticleEntity
 import com.birdushenin.newssphere.domain.usecases.BusinessUseCase
-import com.birdushenin.newssphere.presentation.headlines.general.GeneralViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-class BusinessViewModel@Inject constructor(
+class BusinessViewModel @Inject constructor(
     private val articleDao: ArticleDao,
     private val businessUseCase: BusinessUseCase
-) : ViewModel(){
+) : ViewModel() {
     val news: LiveData<List<Article>>
         get() = _news
     private val _news = MutableLiveData<List<Article>>()
@@ -79,6 +77,7 @@ class BusinessViewModel@Inject constructor(
             offlineArticlesList
         }
     }
+
     private suspend fun getOfflineData(): List<Article> {
         val offlineArticles = articleDao.getAllArticles()
 

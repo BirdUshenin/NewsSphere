@@ -1,10 +1,8 @@
 package com.birdushenin.newssphere.presentation.headlines.filters
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.data.DataFilter
 
 class FilterViewModel : ViewModel() {

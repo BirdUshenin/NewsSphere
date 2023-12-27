@@ -1,7 +1,11 @@
 package com.birdushenin.newssphere.presentation.saved
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,8 +62,22 @@ class SavedWindowFragment : Fragment(), FragmentScreen {
                     it.descriptionText,
                     it.sourceText,
                     it.publishedAt,
-                    it.urlText
+                    it.urlText,
+                    it.content
                 )
+
+                binding.content.setOnClickListener {
+                    val url = savedClass.urlText
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(intent)
+                }
+
+                val contentTextView = binding.content
+                val contentString = it.content
+                val spannable = SpannableString(contentString)
+                contentString?.let { it1 -> spannable.setSpan(UnderlineSpan(), 0, it1.length, 0) }
+                contentTextView.text = spannable
+
 
                 lifecycleScope.launch {
                     val savedNewsEntity = savedViewModel.savedArticleDao.getSavedNewsByTitleAndUrl(

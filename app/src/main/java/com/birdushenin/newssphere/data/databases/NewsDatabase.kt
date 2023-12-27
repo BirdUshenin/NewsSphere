@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.birdushenin.newssphere.data.SourceNews
 import com.birdushenin.newssphere.data.databases.daos.ArticleDao
 import com.birdushenin.newssphere.data.databases.daos.SavedNewsDao
 import com.birdushenin.newssphere.data.databases.daos.SourceDao

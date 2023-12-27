@@ -1,6 +1,9 @@
 package com.birdushenin.newssphere.data
 
+import android.util.Log
 import com.birdushenin.newssphere.R
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 data class Article(
     val source: Source,
@@ -37,6 +40,20 @@ data class Article(
             "the-new-york-times" -> R.drawable.thenewyorktimes
             else -> R.drawable.baseline_public
         }
+    }
+
+    fun formatDateTime(dateTime: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("MMM d, yyyy | hh:mm a", Locale.getDefault())
+
+        try {
+            val date = inputFormat.parse(dateTime)
+            return outputFormat.format(date)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return dateTime
     }
 }
 

@@ -5,8 +5,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ClickableSpan
 import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
@@ -18,16 +16,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.R
 import com.birdushenin.newssphere.data.SavedClass
-import com.birdushenin.newssphere.data.databases.daos.SourceDao
 import com.birdushenin.newssphere.databinding.FragmentNewsWindowBinding
 import com.birdushenin.newssphere.presentation.saved.SavedViewModel
 import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class NewsWindowFragment : Fragment(), FragmentScreen {
 
@@ -53,7 +48,7 @@ class NewsWindowFragment : Fragment(), FragmentScreen {
             article?.let {
                 binding.mainText.title = it.title
                 binding.name.text = it.title
-                binding.data.text = it.publishedAt
+                binding.data.text = it.formatDateTime(it.publishedAt)
                 binding.description.text = it.description
                 binding.source.text = it.source.name
                 binding.content.text = it.content
@@ -67,12 +62,13 @@ class NewsWindowFragment : Fragment(), FragmentScreen {
                     it.url,
                     it.description,
                     it.source.name,
-                    it.publishedAt,
-                    it.urlToImage
+                    it.formatDateTime(it.publishedAt),
+                    it.urlToImage,
+                    it.content
                 )
 
                 binding.content.setOnClickListener {
-                    val url = savedClass.urlText // Assuming savedClass.urlText contains the URL you want to open
+                    val url = savedClass.urlText
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                     startActivity(intent)
                 }
@@ -82,7 +78,6 @@ class NewsWindowFragment : Fragment(), FragmentScreen {
                 val spannable = SpannableString(contentString)
                 contentString?.let { it1 -> spannable.setSpan(UnderlineSpan(), 0, it1.length, 0) }
                 contentTextView.text = spannable
-
 
                 lifecycleScope.launch {
                     val savedNewsEntity = savedViewModel.savedArticleDao.getSavedNewsByTitleAndUrl(

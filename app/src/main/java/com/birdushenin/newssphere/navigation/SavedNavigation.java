@@ -8,6 +8,7 @@ public class SavedNavigation {
     public static Screen SavedWindowFragment() {
         return new SavedWindowFragment();
     }
+
     public static Screen SavedFragment() {
         return new SavedFragment();
     }

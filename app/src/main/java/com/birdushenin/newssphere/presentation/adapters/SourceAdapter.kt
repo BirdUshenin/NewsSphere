@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.birdushenin.newssphere.data.SourceNews
 import com.birdushenin.newssphere.databinding.ItemSourceBinding
 import com.birdushenin.newssphere.domain.OnSourceItemClickListener
-import com.bumptech.glide.Glide
 
 class SourceAdapter : ListAdapter<SourceNews, SourceAdapter.SourceViewHolder>(DIFF_CALLBACK) {
 
@@ -16,7 +15,7 @@ class SourceAdapter : ListAdapter<SourceNews, SourceAdapter.SourceViewHolder>(DI
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SourceNews>() {
-            override fun areItemsTheSame(oldItem:SourceNews, newItem: SourceNews): Boolean {
+            override fun areItemsTheSame(oldItem: SourceNews, newItem: SourceNews): Boolean {
                 return oldItem.url == newItem.url
             }
 
@@ -26,7 +25,10 @@ class SourceAdapter : ListAdapter<SourceNews, SourceAdapter.SourceViewHolder>(DI
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SourceAdapter.SourceViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): SourceAdapter.SourceViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemSourceBinding.inflate(inflater, parent, false)
         return SourceViewHolder(binding)
@@ -44,7 +46,8 @@ class SourceAdapter : ListAdapter<SourceNews, SourceAdapter.SourceViewHolder>(DI
         clickListener = listener
     }
 
-    inner class SourceViewHolder(private val binding: ItemSourceBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class SourceViewHolder(private val binding: ItemSourceBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(source: SourceNews) {
             binding.name.text = source.name
@@ -53,9 +56,6 @@ class SourceAdapter : ListAdapter<SourceNews, SourceAdapter.SourceViewHolder>(DI
             binding.category.text = source.category
             binding.description.text = source.description ?: ""
             binding.image.setImageResource(source.getSourceDrawable())
-//            Glide.with(binding.image)
-//                .load(source.urlToImage)
-//                .into(binding.image)
         }
     }
 
