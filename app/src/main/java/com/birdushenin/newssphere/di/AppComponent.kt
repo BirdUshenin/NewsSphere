@@ -11,6 +11,7 @@ import com.birdushenin.newssphere.presentation.headlines.business.BusinessViewMo
 import com.birdushenin.newssphere.presentation.headlines.general.GeneralFragment
 import com.birdushenin.newssphere.presentation.headlines.general.GeneralViewModelFactory
 import com.birdushenin.newssphere.presentation.headlines.sports.SportsFragment
+import com.birdushenin.newssphere.presentation.headlines.sports.SportsViewModelFactory
 import com.birdushenin.newssphere.presentation.saved.SavedFragment
 import com.birdushenin.newssphere.presentation.sources.SourceFragment
 import com.birdushenin.newssphere.presentation.sources.SourceWindowFragment
@@ -19,7 +20,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component (modules = [RetrofitModule::class, NavigationModule::class, DatabaseModule::class])
+@Component(modules = [RetrofitModule::class, NavigationModule::class, DatabaseModule::class])
 interface AppComponent {
     fun inject(fragment: GeneralFragment)
     fun inject(fragment: BusinessFragment)
@@ -31,6 +32,7 @@ interface AppComponent {
     fun inject(worker: ClearOldDataWorker)
     fun viewModelsFactory(): GeneralViewModelFactory
     fun viewModelBusinessFactory(): BusinessViewModelFactory
+    fun viewModelSportsFactory(): SportsViewModelFactory
 
     @Component.Factory
     interface Factory {
