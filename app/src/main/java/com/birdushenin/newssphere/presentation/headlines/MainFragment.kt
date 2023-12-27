@@ -84,9 +84,9 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View {
                 else -> null
             }
             when (position) {
-                0 -> R.drawable.baseline_public
-                1 -> R.drawable.query_stats
-                2 -> R.drawable.baseline_sports
+                0 -> R.drawable.general
+                1 -> R.drawable.business
+                2 -> R.drawable.travel
                 else -> null
             }?.let { tab.setIcon(it) }
         }.attach()

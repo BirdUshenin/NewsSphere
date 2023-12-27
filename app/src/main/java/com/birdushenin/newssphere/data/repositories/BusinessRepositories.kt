@@ -4,7 +4,7 @@ import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.domain.NewsService
 import javax.inject.Inject
 
-class NetworkRepository @Inject constructor(
+class BusinessRepositories @Inject constructor(
     private val newsService: NewsService,
 ) {
     suspend fun loadNews(
@@ -13,7 +13,7 @@ class NetworkRepository @Inject constructor(
         toDate: String?,
         language: String?
     ): List<Article> {
-        val query = "general"
+        val query = "business"
         val apiKey = "eae4e313c2d043c183e78149bc172501"
         // 6aae4c71707e4bf4b0bfbe63df5edd15 eae4e313c2d043c183e78149bc172501
 

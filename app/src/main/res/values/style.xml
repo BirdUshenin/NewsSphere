@@ -4,6 +4,10 @@
         <item name="colorSurface">#d1e4ff</item>
         <item name="colorSecondaryContainer">#00829C</item>
     </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="CustomTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicator">@drawable/rounded_tab_indicator</item>
+        <item name="tabIndicatorFullWidth">false</item>
+    </style>
 </resources>

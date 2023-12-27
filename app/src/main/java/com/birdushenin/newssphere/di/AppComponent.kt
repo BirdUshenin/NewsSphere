@@ -5,15 +5,15 @@ import com.birdushenin.newssphere.di.module.DatabaseModule
 import com.birdushenin.newssphere.di.module.NavigationModule
 import com.birdushenin.newssphere.di.module.RetrofitModule
 import com.birdushenin.newssphere.domain.ClearOldDataWorker
-import com.birdushenin.newssphere.presentation.headlines.business.BusinessFragment
-import com.birdushenin.newssphere.presentation.headlines.general.GeneralFragment
 import com.birdushenin.newssphere.presentation.MainActivity
+import com.birdushenin.newssphere.presentation.headlines.business.BusinessFragment
+import com.birdushenin.newssphere.presentation.headlines.business.BusinessViewModelFactory
+import com.birdushenin.newssphere.presentation.headlines.general.GeneralFragment
+import com.birdushenin.newssphere.presentation.headlines.general.GeneralViewModelFactory
+import com.birdushenin.newssphere.presentation.headlines.sports.SportsFragment
+import com.birdushenin.newssphere.presentation.saved.SavedFragment
 import com.birdushenin.newssphere.presentation.sources.SourceFragment
 import com.birdushenin.newssphere.presentation.sources.SourceWindowFragment
-import com.birdushenin.newssphere.presentation.headlines.sports.SportsFragment
-import com.birdushenin.newssphere.presentation.headlines.general.GeneralViewModelFactory
-import com.birdushenin.newssphere.presentation.saved.SavedFragment
-import com.birdushenin.newssphere.presentation.saved.SavedWindowFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -30,10 +30,10 @@ interface AppComponent {
     fun inject(activity: MainActivity)
     fun inject(worker: ClearOldDataWorker)
     fun viewModelsFactory(): GeneralViewModelFactory
+    fun viewModelBusinessFactory(): BusinessViewModelFactory
 
     @Component.Factory
     interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
-
 }

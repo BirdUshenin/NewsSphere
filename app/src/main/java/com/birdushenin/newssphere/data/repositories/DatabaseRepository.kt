@@ -7,8 +7,4 @@ import javax.inject.Inject
 class DatabaseRepository @Inject constructor(
     private val articleDao: ArticleDao,
     private val savedNewsDao: SavedNewsDao,
-) {
-
-
-
-}
+) {}
