@@ -14,7 +14,7 @@ class NetworkRepository @Inject constructor(
         language: String?
     ): List<Article> {
         val query = "general"
-        val apiKey = "eae4e313c2d043c183e78149bc172501"
+        val apiKey = "6aae4c71707e4bf4b0bfbe63df5edd15"
         // 6aae4c71707e4bf4b0bfbe63df5edd15 eae4e313c2d043c183e78149bc172501
 
         val response = newsService.getEverything(query, apiKey, fromDate, toDate, filter, language)

@@ -1,6 +1,5 @@
 package com.birdushenin.newssphere.data
 
-import android.util.Log
 import com.birdushenin.newssphere.R
 import java.text.SimpleDateFormat
 import java.util.Locale

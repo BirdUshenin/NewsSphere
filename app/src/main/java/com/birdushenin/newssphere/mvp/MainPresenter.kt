@@ -6,8 +6,7 @@ class MainPresenter(private val view: MainContract.View) : MainContract.Presente
     override fun onViewCreated() {
         if (isSearchMode) {
             view.showSearchFragment()
-        } else {
-        }
+        } else { }
     }
 
     override fun onSearchButtonClick() {
