@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.data.SourceNews
 import com.birdushenin.newssphere.data.databases.daos.SourceDao
-import com.birdushenin.newssphere.data.databases.entities.SourceEntity
 import com.birdushenin.newssphere.databinding.FragmentSourceBinding
 import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnSourceItemClickListener
@@ -41,6 +40,9 @@ class SourceFragment : Fragment(), FragmentScreen {
     private var isSearchMode = false
     private val adapter = SourceAdapter()
     private val sourceViewModel: SourceViewModel by activityViewModels()
+    private val sourceGlobalViewModel: SourceGlobalViewModel by activityViewModels() {
+        MyApplication.appComponent.sourceViewModelFactory()
+    }
 
     @Inject
     lateinit var retrofit: Retrofit
@@ -118,9 +120,21 @@ class SourceFragment : Fragment(), FragmentScreen {
             false
         }
 
+        sourceGlobalViewModel.news.observe(viewLifecycleOwner) { newsList ->
+            if (newsList.isNotEmpty()) {
+                binding.progressBar.visibility = View.GONE
+                adapter.submitList(newsList)
+            } else {
+                binding.refresh.visibility = View.VISIBLE
+                binding.refreshPic.visibility = View.VISIBLE
+                binding.notInternet.visibility = View.VISIBLE
+                binding.notInternetPic.visibility = View.VISIBLE
+            }
+        }
+
         binding.refreshPic.setOnClickListener {
             lifecycleScope.launch {
-                loadNews(newsService)
+                sourceGlobalViewModel.loadNews()
             }
             binding.notInternet.text = "Something went wrong Try later"
             Toast.makeText(context, "Not internet connection", Toast.LENGTH_SHORT)
@@ -135,20 +149,10 @@ class SourceFragment : Fragment(), FragmentScreen {
         })
 
         lifecycleScope.launch {
-            loadNews(newsService)
+            sourceGlobalViewModel.loadNews()
         }
 
         return binding.root
-    }
-
-    private fun showKeyboard(editText: EditText) {
-        editText.isFocusableInTouchMode = true
-        editText.requestFocus()
-        editText.setSelection(0)
-        editText.postDelayed({
-            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-        }, 100)
     }
 
     private fun showKeyboardAndFocus(editText: EditText) {
@@ -170,48 +174,6 @@ class SourceFragment : Fragment(), FragmentScreen {
 
     private fun hideSearchFragment() {
         isSearchMode = false
-    }
-
-    private suspend fun loadNews(newsService: NewsService) {
-        val apiKey = "4897ed61df034fa4b4bb185141dfe043"
-        // eae4e313c2d043c183e78149bc172501 6aae4c71707e4bf4b0bfbe63df5edd15
-
-        try {
-            val response = newsService.getSources(apiKey = apiKey)
-            binding.refresh.visibility = View.GONE
-            binding.refreshPic.visibility = View.GONE
-            binding.notInternet.visibility = View.GONE
-            binding.notInternetPic.visibility = View.GONE
-
-            if (response.isSuccessful) {
-                val newsList = response.body()?.sources ?: emptyList()
-                withContext(Dispatchers.Main) {
-                    binding.progressBar.visibility = View.GONE
-                    val articleResponse = response.body()?.sources ?: emptyList()
-
-                    val sourceEntity = articleResponse.map { article ->
-                        SourceEntity(
-                            sourceId = article.id,
-                            name = article.name,
-                            description = article.description,
-                            country = article.country,
-                            category = article.category,
-                            url = article.url,
-                            urlToImage = article.urlToImage
-                        )
-                    }
-                    adapter.submitList(newsList)
-                    sourceNewsDao.deleteAllArticles()
-                    sourceNewsDao.insertArticles(sourceEntity)
-                }
-
-            }
-        } catch (_: Exception) {
-            binding.refresh.visibility = View.VISIBLE
-            binding.refreshPic.visibility = View.VISIBLE
-            binding.notInternet.visibility = View.VISIBLE
-            binding.notInternetPic.visibility = View.VISIBLE
-        }
     }
 
     private suspend fun searchSource(query: String) {

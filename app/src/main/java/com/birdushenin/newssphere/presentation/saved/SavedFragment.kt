@@ -153,16 +153,6 @@ class SavedFragment : Fragment(), FragmentScreen {
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    private fun showKeyboard(editText: EditText) {
-        editText.isFocusableInTouchMode = true
-        editText.requestFocus()
-        editText.setSelection(0)
-        editText.postDelayed({
-            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-        }, 100)
-    }
-
     private fun hideKeyboard() {
         val imm =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
