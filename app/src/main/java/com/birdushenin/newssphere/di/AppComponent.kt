@@ -14,6 +14,7 @@ import com.birdushenin.newssphere.presentation.headlines.sports.SportsFragment
 import com.birdushenin.newssphere.presentation.headlines.sports.SportsViewModelFactory
 import com.birdushenin.newssphere.presentation.saved.SavedFragment
 import com.birdushenin.newssphere.presentation.sources.SourceFragment
+import com.birdushenin.newssphere.presentation.sources.SourceViewModelFactory
 import com.birdushenin.newssphere.presentation.sources.SourceWindowFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -33,6 +34,7 @@ interface AppComponent {
     fun viewModelsFactory(): GeneralViewModelFactory
     fun viewModelBusinessFactory(): BusinessViewModelFactory
     fun viewModelSportsFactory(): SportsViewModelFactory
+    fun sourceViewModelFactory(): SourceViewModelFactory
 
     @Component.Factory
     interface Factory {

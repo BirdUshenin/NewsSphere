@@ -170,16 +170,6 @@ class MainFragment : Fragment(), FragmentScreen, MainContract.View {
         btnFilter.setImageResource(imageToDisplay)
     }
 
-    private fun showKeyboard(editText: EditText) {
-        editText.isFocusableInTouchMode = true
-        editText.requestFocus()
-        editText.setSelection(0)
-        editText.postDelayed({
-            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-        }, 100)
-    }
-
     private fun showKeyboardAndFocus(editText: EditText) {
         editText.requestFocus()
         val imm =

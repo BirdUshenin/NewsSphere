@@ -25,8 +25,8 @@ class SportsFragment : Fragment() {
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     val adapter = NewsAdapter()
-    private val updateViewModel: UpdateViewModel by activityViewModels()
     val sharedViewModel: NewsViewModel by activityViewModels()
+    private val updateViewModel: UpdateViewModel by activityViewModels()
     private val searchViewModel: SearchViewModel by activityViewModels()
     private val filterViewModel: FilterViewModel by activityViewModels()
     private val sportsViewModel: SportsViewModel by activityViewModels {

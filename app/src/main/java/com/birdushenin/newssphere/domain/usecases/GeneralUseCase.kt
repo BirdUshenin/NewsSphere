@@ -4,11 +4,11 @@ import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.data.Source
 import com.birdushenin.newssphere.data.databases.entities.ArticleEntity
 import com.birdushenin.newssphere.data.repositories.DatabaseRepository
-import com.birdushenin.newssphere.data.repositories.NetworkRepository
+import com.birdushenin.newssphere.data.repositories.GeneralRepository
 import javax.inject.Inject
 
 class GeneralUseCase @Inject constructor(
-    private val networkRepository: NetworkRepository,
+    private val networkRepository: GeneralRepository,
     private val databaseRepository: DatabaseRepository
 ) {
     suspend fun loadNews(

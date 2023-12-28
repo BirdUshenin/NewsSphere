@@ -4,7 +4,7 @@ import com.birdushenin.newssphere.data.Article
 import com.birdushenin.newssphere.domain.NewsService
 import javax.inject.Inject
 
-class NetworkRepository @Inject constructor(
+class GeneralRepository @Inject constructor(
     private val newsService: NewsService,
 ) {
     suspend fun loadNews(
