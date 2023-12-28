@@ -136,7 +136,7 @@
         android:id="@+id/imageCalendar"
         android:layout_width="25dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="20dp"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/baseline_calendar"
