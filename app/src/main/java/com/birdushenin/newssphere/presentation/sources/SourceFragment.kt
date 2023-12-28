@@ -20,7 +20,6 @@ import com.birdushenin.newssphere.MyApplication
 import com.birdushenin.newssphere.data.SourceNews
 import com.birdushenin.newssphere.data.databases.daos.SourceDao
 import com.birdushenin.newssphere.databinding.FragmentSourceBinding
-import com.birdushenin.newssphere.domain.NewsService
 import com.birdushenin.newssphere.domain.OnSourceItemClickListener
 import com.birdushenin.newssphere.navigation.HeadlinesScreens
 import com.birdushenin.newssphere.navigation.SavedNavigation
@@ -66,8 +65,6 @@ class SourceFragment : Fragment(), FragmentScreen {
 
         binding.progressBar.visibility = View.VISIBLE
         val editText = binding.editSearch
-
-        val newsService = retrofit.create(NewsService::class.java)
 
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
