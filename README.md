@@ -2,7 +2,7 @@
 
 <p align="center"><img src="https://i.ibb.co/CHkDxwh/morning-news-newspaper-icon-1320136429130706490.png" alt="project-image"></p>
 
-<p id="description">Это новостное приложение которое использует NewsApi</p>
+<p id="description">Это новостное приложение, которое использует NewsApi</p>
 
 <p><b>Стек технологий проекта:</b></p>
 
@@ -42,7 +42,7 @@
   
 <h2>💻 Built with</h2>
 
-Technologies used in the project:
+Languages used in the project:
 
 *   Kotlin
 *   Java
